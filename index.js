@@ -22,7 +22,7 @@ let randChordGen = (arr, count, order) => {
   }
 }
 
-let test = randChordGen(harmonic_sets.cMajor, 4, 'sort');
+let test = randChordGen(harmonic_sets.Major.c, 4, 'sort');
 
 fs.writeFile('test.ly', test, err => {
   if (err) throw err;

@@ -1,31 +1,22 @@
 module.exports = {
 
-cMajor: [0,2,4,5,7,9,11],
-dbMajor: [1,3,5,6,8,10,12]
+  Major: {
+    c:  [0,2,4,5,7,9,11],
+    db: [1,3,5,6,8,10,0],
+    d:  [2,4,6,7,9,11,1],
+    eb: [3,5,7,8,10,0,2],
+    e:  [4,6,8,9,11,1,3],
+    f:  [5,7,9,10,0,2,4],
+    gb: [6,8,10,11,1,3,5],
+    g:  [7,9,11,0,2,4,6],
+    ab: [8,10,0,1,3,5,7],
+    a:  [9,11,1,2,4,6,8],
+    bb: [10,0,2,3,5,7,9],
+    b:  [11,1,3,4,6,8,10],
+  },
+  Minor: {
 
-/*
-dMajor = [];
-ebMajor = [];
-eMajor = [];
-fMajor = [];
-gbMajor = [];
-gMajor = [];
-abMajor = [];
-aMajor = [];
-bbMajor = [];
+  }
 
-cMinor = [];
-dbMinor = [];
-dMinor = [];
-ebMinor = [];
-eMinor = [];
-fMinor = [];
-gbMinor = [];
-gMinor = [];
-abMinor = [];
-aMinor = [];
-bbMinor = [];
-bMinor = [11,1,];
-*/
 }
 
