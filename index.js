@@ -1,30 +1,5 @@
 const fs = require('fs');
-
-
-cMajor = [0,2,4,5,7,9,11];
-dbMajor = [1,3,5,6,8,10,12];
-dMajor = [];
-ebMajor = [];
-eMajor = [];
-fMajor = [];
-gbMajor = [];
-gMajor = [];
-abMajor = [];
-aMajor = [];
-bbMajor = [];
-
-cMinor = [];
-dbMinor = [];
-dMinor = [];
-ebMinor = [];
-eMinor = [];
-fMinor = [];
-gbMinor = [];
-gMinor = [];
-abMinor = [];
-aMinor = [];
-bbMinor = [];
-bMinor = [11,1,];
+const harmonic_sets = require('./harmonic_sets')
 
 let randChordGen = (arr, count, order) => {
   let finalChord = [];
@@ -47,7 +22,7 @@ let randChordGen = (arr, count, order) => {
   }
 }
 
-let test = randChordGen(cMajor, 4, 'sort');
+let test = randChordGen(harmonic_sets.cMajor, 4, 'sort');
 
 fs.writeFile('test.ly', test, err => {
   if (err) throw err;
