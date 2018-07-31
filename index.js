@@ -2,10 +2,16 @@ const fs = require('fs');
 // Harmonic Sets
 const harmonic_sets = require('./harmonic_sets')
 
+// ^.-- quant --.^ \\
+// 1 = whole note, 2 = 1/2 note, 4 = 1/4 note, 8 = 1/8 note
+// 16 = 1/16 note, 32 = 1/32 note, 64 = 1/64 note, 128 = 1/128 note
+
 // ^.-- Play Scale --.^ \\
-let playScale = (set, time = 4) => {
+// default quantization set to 1/4 notes
+// 1 = whole note
+let playScale = (set, quant = 4) => {
   let first = set[0];
-  first += time;
+  first += quant;
   set[0] = first;
   let scale = set.join(' ');
   return scale;
