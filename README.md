@@ -33,6 +33,7 @@ let cMajor1 = playScale(harmonic_sets.Major.c[1], 4));
 #### `randChordGen()`
 
 ```javascript
+// ^.-- Random Chord Generator --.^ \\
 let randChordGen = (arr, count, order) => {
     let finalChord = [];
     
@@ -59,5 +60,47 @@ let randChordGen = (arr, count, order) => {
 
 ```javascript
 let cMajor1 = randChordGen(harmonic_sets.Major.c[1], 4, 'sort');
+```
+
+
+
+#### `repeater()`
+
+```javascript
+// ^.-- Repeater --.^ \\
+let repeater = (music, reps) => {
+    let repeat = '';
+    let i = 0;
+    while (i < reps) {
+        repeat += music;
+        i++;
+    }
+    return repeat;
+}
+```
+
+```javascript
+let c10 = repeater(cMajor1, 10);
+```
+
+
+
+#### `formatterLy()`
+
+```javascript
+// ^.-- LilyPond Formatter --.^ \\
+const formatterLy = (arr, type = 'default') => {
+    let formattedSet = arr.join(' ');
+    
+    type = type.toLowerCase();
+    if (type === 'chord') {
+        formattedSet = '<' + formattedSet + '>'
+    }
+    return formattedSet;
+}
+```
+
+```javascript
+formatterLy(finalChord, 'chord');
 ```
 

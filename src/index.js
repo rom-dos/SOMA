@@ -16,6 +16,17 @@ let playScale = (set, quant = 4) => {
   return scale;
 }
 
+// ^.-- LilyPond Formatter --.^ \\
+const formatterLy = (arr, type = 'default') => {
+  let formattedSet = arr.join(' ');
+
+  type = type.toLowerCase();
+  if (type === 'chord') {
+    formattedSet = '<' + formattedSet + '>';
+  }
+  return formattedSet;
+}
+
 // ^.-- Random Chord Generator --.^ \\
 let randChordGen = (arr, count, order) => {
   let finalChord = [];
@@ -32,8 +43,8 @@ let randChordGen = (arr, count, order) => {
   }
   if (order === 'sort') {
     finalChord = finalChord.sort((a, b) => a - b);
-    finalChord = finalChord.join(' ');
-    finalChord = '<' + finalChord + '>' + 1 + ' | ';
+    // finalChord = '<' + finalChord + '>' + 1 + ' | ';
+    finalChord = formatterLy(finalChord, 'chord');
     return finalChord;
     // console.log(finalChord);
   } else {
@@ -45,22 +56,18 @@ let randChordGen = (arr, count, order) => {
 let cMajor1 = randChordGen(harmonic_sets.Major.c[1], 4, 'sort');
 let cMajor2 = playScale(harmonic_sets.Major.c[1], 4);
 
-let repeater = (chord, count) => {
+// ^.-- Repeater --.^ \\
+let repeater = (music, reps) => {
   let repeat = '';
   let i = 0;
-  while (i < count) {
-    repeat += chord;
+  while (i < reps) {
+    repeat += music;
     i++;
   }
   return repeat;
 }
 
 let c10 = repeater(cMajor1, 10);
-
-const formatterLy = (arr) => {
-  let formattedSet = arr.join(' ');
-  return formattedSet;
-}
 
 // Print
 
@@ -98,9 +105,8 @@ const printLilyPond = (music) => {
 
 // printLilyPond(cMajor1);
 
-fs.writeFile('../output/30VII2018-2.ly', printLilyPond(cMajor1), err => {
+fs.writeFile('../output/30VII2018-3.ly', printLilyPond(cMajor1), err => {
   if (err) throw err;
 
   console.log("Success!");
 })
-
