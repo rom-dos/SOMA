@@ -1,0 +1,19 @@
+{
+  "name": "soma",
+  "version": "0.0.1",
+  "description": "compositional tools for manipulating LilyPond data and rendering MIDI",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rom-dos/SOMA.git"
+  },
+  "author": "nicholas matthew morera",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rom-dos/SOMA/issues"
+  },
+  "homepage": "https://github.com/rom-dos/SOMA#readme"
+}
