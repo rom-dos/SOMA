@@ -8,7 +8,6 @@ const harmonic_sets = require('./harmonic_sets')
 
 // ^.-- Play Scale --.^ \\
 // default quantization set to 1/4 notes
-// 1 = whole note
 let playScale = (set, quant = 4) => {
   let first = set[0];
   first += quant;
@@ -35,10 +34,10 @@ let randChordGen = (arr, count, order) => {
     finalChord = finalChord.sort((a, b) => a - b);
     finalChord = finalChord.join(' ');
     finalChord = '<' + finalChord + '>' + 1 + ' | ';
-    return(finalChord);
+    return finalChord;
     // console.log(finalChord);
   } else {
-    return(finalChord);
+    return finalChord;
     // return finalChord;
   }
 }
@@ -99,7 +98,7 @@ const printLilyPond = (music) => {
 
 // printLilyPond(cMajor1);
 
-fs.writeFile('30VII2018-1.ly', printLilyPond(cMajor2), err => {
+fs.writeFile('output/30VII2018-2.ly', printLilyPond(cMajor1), err => {
   if (err) throw err;
 
   console.log("Success!");
