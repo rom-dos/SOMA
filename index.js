@@ -1,8 +1,17 @@
 const fs = require('fs');
-
 // Harmonic Sets
 const harmonic_sets = require('./harmonic_sets')
 
+// ^.-- Play Scale --.^ \\
+let playScale = (set, time = 4) => {
+  let first = set[0];
+  first += time;
+  set[0] = first;
+  let scale = set.join(' ');
+  return scale;
+}
+
+// ^.-- Random Chord Generator --.^ \\
 let randChordGen = (arr, count, order) => {
   let finalChord = [];
 
@@ -29,6 +38,7 @@ let randChordGen = (arr, count, order) => {
 }
 
 let cMajor1 = randChordGen(harmonic_sets.Major.c[1], 4, 'sort');
+let cMajor2 = playScale(harmonic_sets.Major.c[1], 4);
 
 let repeater = (chord, count) => {
   let repeat = '';
@@ -83,7 +93,7 @@ const printLilyPond = (music) => {
 
 // printLilyPond(cMajor1);
 
-fs.writeFile('test.ly', printLilyPond(c10), err => {
+fs.writeFile('30VII2018-1.ly', printLilyPond(cMajor2), err => {
   if (err) throw err;
 
   console.log("Success!");
