@@ -98,7 +98,7 @@ const printLilyPond = (music) => {
 
 // printLilyPond(cMajor1);
 
-fs.writeFile('output/30VII2018-2.ly', printLilyPond(cMajor1), err => {
+fs.writeFile('../output/30VII2018-2.ly', printLilyPond(cMajor1), err => {
   if (err) throw err;
 
   console.log("Success!");
