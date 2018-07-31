@@ -15,17 +15,17 @@ module.exports = {
     b:  [ [11,1,3,4,6,8,10], ['b','des','ees','e','ges','aes','bes'] ]
   },
   Minor: {
-    c:  [],
-    db: [],
-    d: [],
-    eb: [],
-    f: [],
-    gb: [],
-    g: [],
-    ab: [],
-    a: [],
-    bb: [],
-    b: []
+    c:  [ [], ['c','d','ees','f','g','a','bes'] ],
+    db: [ [], ['des','ees','e','ges','aes','bes','b'] ],
+    d: [ [], ['d','e','f','g','a','b','c'] ],
+    eb: [ [], ['ees','f','ges','aes','bes','c','des'] ],
+    f: [ [], ['f','g','aes','bes','c','d','ees'] ],
+    gb: [ [], ['ges','aes','a','b','des','ees','e'] ],
+    g: [ [], ['g','a','bes','c','d','e','f'] ],
+    ab: [ [], ['aes','bes','b','des','ees','f','ges'] ],
+    a: [ [], ['a','b','c','d','e','ges','g'] ],
+    bb: [ [], ['bes','c','des','ees','f','g','aes'] ],
+    b: [ [], ['b','des','d','e','ges','aes','a'] ]
   }
 }
 
