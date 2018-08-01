@@ -1,5 +1,4 @@
 const fs = require('fs');
-// Harmonic Sets
 const harmonic_sets = require('./harmonic_sets')
 
 // ^.-- quant --.^ \\
@@ -53,8 +52,18 @@ let randChordGen = (arr, count, order) => {
   }
 }
 
-let cMajor1 = randChordGen(harmonic_sets.Minor.db[1], 4, 'sort');
-let cMajor2 = playScale(harmonic_sets.Major.c[1], 4);
+// ^.-- Cell Fold --.^ \\
+const cellFold = (str, type) => {
+  if (type.toLowerCase() === 'rest') {
+    str += " r | ";
+    return str;
+  } else {
+    let newArr = str.split(' ');
+    newArr.push(newArr[newArr.length - 2]);
+    let newStr = newArr.join(' ');
+    return newStr;
+  }
+}
 
 // ^.-- Repeater --.^ \\
 let repeater = (music, reps) => {
@@ -67,14 +76,46 @@ let repeater = (music, reps) => {
   return repeat;
 }
 
-let c10 = repeater(cMajor1, 10);
+String.prototype.regexIndexOf = function(regex, startpos) {
+    var indexOf = this.substring(startpos || 0).search(regex);
+    return (indexOf >= 0) ? (indexOf + (startpos || 0)) : indexOf;
+}
 
-// Print
+// console.log(playScale(harmonic_sets.Major[0][1], 4).regexIndexOf(/[0-9]/, 0));
+// let cMajor1 = randChordGen(harmonic_sets.Minor.db[1], 4, 'sort');
+// let cMajor2 = playScale(harmonic_sets.Major.c[1], 4);
+// let c10 = repeater(cMajor1, 10);
+// runtime = cellFold(playScale(harmonic_sets.Major.c[1], 4), 'rest');
+// runtime += cellFold(playScale(harmonic_sets.Major.d[1], 4), 'rest');
+// console.log(playScale(harmonic_sets.Major.db[1], 4));
 
-const printLilyPond = (music) => {
+const sequence = () => {
+  let data = '';
+  data += cellFold(playScale(harmonic_sets.Major[0][1], 8), 'rest');
+  for (let i = 1; i <= 11; i++) {
+    let newLine = cellFold(playScale(harmonic_sets.Major[i][1], 8), 'rest');
+    newLine = newLine.split(' ');
+    let firstNote = String(newLine[0]);
+    let splicePoint = firstNote.regexIndexOf(/[0-9]/, 0);
+    firstNote = firstNote.slice(0, splicePoint) + ',' + firstNote.slice(splicePoint);
+    // firstNote = firstNote.split('');
+    // firstNote = firstNote.splice(splicePoint, 0, ',');
+    // firstNote = firstNote.join();
+    // console.log(firstNote);
+    newLine[0] = firstNote;
+    newLine = newLine.join(' ');
+    data += newLine;
+  }
+  return data;
+}
+
+let test = sequence();
+
+// ^.-- PRINT --.^ \\
+const printLilyPond = (music, time) => {
   let txt = `\\version "2.18.2"
   
-  upper = \\relative c'' {
+  upper = \\relative c' {
   \\clef treble
   \\key c \\major
   \\time 4/4
@@ -103,10 +144,9 @@ const printLilyPond = (music) => {
   return txt;
 }
 
-// printLilyPond(cMajor1);
-
-fs.writeFile('../output/30VII2018-3.ly', printLilyPond(cMajor1), err => {
+fs.writeFile('../output/runtime.ly', printLilyPond(test), err => {
   if (err) throw err;
 
   console.log("Success!");
 })
+

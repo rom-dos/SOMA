@@ -23,13 +23,18 @@ let testScale = ['c','d','e','g','a'];
 testScale = testScale.join(' ');
 
 // ^.-- Cell Fold --.^ \\
-const cellFold = (str) => {
-  let newArr = str.split(' '); 
-  newArr.push(newArr[newArr.length - 2]);
-  let newStr = newArr.join(' ');
-  console.log(newStr);
+const cellFold = (str, type) => {
+  if (type.toLowerCase() === 'rest') {
+    str += " r | ";
+    console.log(str);
+  } else {
+    let newArr = str.split(' '); 
+    newArr.push(newArr[newArr.length - 2]);
+    let newStr = newArr.join(' ');
+    console.log(newStr);
+  }
 }
-cellFold(testScale);
+cellFold(testScale, 'rest');
 
 
 let myScale = ['c','d','e','f','g','a','b'];
