@@ -53,7 +53,7 @@ let randChordGen = (arr, count, order) => {
   }
 }
 
-let cMajor1 = randChordGen(harmonic_sets.Major.c[1], 4, 'sort');
+let cMajor1 = randChordGen(harmonic_sets.Minor.db[1], 4, 'sort');
 let cMajor2 = playScale(harmonic_sets.Major.c[1], 4);
 
 // ^.-- Repeater --.^ \\
