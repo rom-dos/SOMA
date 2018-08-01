@@ -42,13 +42,10 @@ let randChordGen = (arr, count, order) => {
   }
   if (order === 'sort') {
     finalChord = finalChord.sort((a, b) => a - b);
-    // finalChord = '<' + finalChord + '>' + 1 + ' | ';
     finalChord = formatterLy(finalChord, 'chord');
     return finalChord;
-    // console.log(finalChord);
   } else {
     return finalChord;
-    // return finalChord;
   }
 }
 
@@ -95,14 +92,9 @@ const sequence = () => {
   for (let i = 1; i <= 11; i++) {
     let newLine = cellFold(playScale(harmonic_sets.Major[i][1], 8), 'rest');
     newLine = newLine.split(' ');
-    let firstNote = String(newLine[0]);
+    let firstNote = newLine[0];
     let splicePoint = firstNote.regexIndexOf(/[0-9]/, 0);
-    firstNote = firstNote.slice(0, splicePoint) + ',' + firstNote.slice(splicePoint);
-    // firstNote = firstNote.split('');
-    // firstNote = firstNote.splice(splicePoint, 0, ',');
-    // firstNote = firstNote.join();
-    // console.log(firstNote);
-    newLine[0] = firstNote;
+    newLine[0] = firstNote.slice(0, splicePoint) + ',' + firstNote.slice(splicePoint);
     newLine = newLine.join(' ');
     data += newLine;
   }
