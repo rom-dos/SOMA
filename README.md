@@ -7,7 +7,27 @@ compositional tools for manipulating LilyPond data and rendering MIDI
 - [Node](https://nodejs.org/en/)
 - [LilyPond](http://lilypond.org/)
 
+## Use cases
+
+**Use cases to fulfill**
+1. Print the Major scale in all 12 keys, quantized in 1/4 notes, with a 1/4 note rest after each completion, ascending chromatically. 
+2. Print the Minor scale in all 12 keys, quantized in 1/8 notes, with an 1/8 note rest after each completion, descending chromatically.
+3. Print the Major pentatonic scale in all 12 keys, quantized in 1/4 note triplets, with a 1/4 note triplet rest after each completion, ascending up in 7ths.
+4. Print 16 "throws" of single notes or chords, of random selection, from a supplied harmonic set, quantized in 1/8 notes.
+5. Print 8 chords (variable # of voices), of random selection, from a supplied harmonic set, quantized in 1/2 notes.
+6. Print the sum of 2 harmonic sets combined together, removing duplicate pitches.
+7. Print the sum of 2 harmonic sets combined together, declaring # of pitches from each set and/or total # of pitches in new set.
+8. Print x random notes from a supplied harmonic set.
+9. Print a set reversed.
+10. Print a set inverted x times.
+11. Convert a linear set into a chord comprised of x voices, the chord taking on the combined duration of the individual voices.
+12. Print x random rhythms, fitting in a 4/4 measure.
+13. Print x random rhythms, fitting in a x measure, with range of quantization specified (i.e. 64th - 32nd notes, or 32nd - 1/4 notes)
+14. Quantized set into tuplet (3:2, 5:4, 7:8, 9:8, 15:16...)
+
 ## API
+
+### Time
 
 #### `quantSet()`
 
@@ -145,6 +165,8 @@ cellFold(playScale(harmonic_sets.Major[10][1], 16), 'normal');
 // => 'bes16 c d ees f g a g'
 ```
 
+#### Arrangement
+
 #### `sequence()`
 
 ```javascript
@@ -163,6 +185,8 @@ const sequence = () => {
   return data;
 }
 ```
+
+### Output
 
 #### `printLilyPond(music, time)`
 
