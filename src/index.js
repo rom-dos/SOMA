@@ -4,21 +4,29 @@ const harmonic_sets = require('./harmonic_sets')
 // ^.-- quant --.^ \\
 // 1 = whole note, 2 = 1/2 note, 4 = 1/4 note, 8 = 1/8 note
 // 16 = 1/16 note, 32 = 1/32 note, 64 = 1/64 note, 128 = 1/128 note
+// default quantization set to 1/4 notes
+let quantSet = (set, quant = 4) => {
+  let localSet = set;
+  let first = localSet[0];
+  first += quant;
+  localSet[0] = first;
+  return localSet;
+}
 
 // ^.-- Play Scale --.^ \\
-// default quantization set to 1/4 notes
 let playScale = (set, quant = 4) => {
-  let first = set[0];
-  first += quant;
-  set[0] = first;
-  let scale = set.join(' ');
-  return scale;
+  let localSet = quantSet(set, quant);
+  return localSet.join(' ');
 }
 
 // ^.-- LilyPond Formatter --.^ \\
-const formatterLy = (arr, type = 'default') => {
-  let formattedSet = arr.join(' ');
-
+const formatterLy = (set, type = 'default') => {
+  let formattedSet;
+  if (typeof set === 'string') {
+    formattedSet = set;
+  } else {
+    formattedSet = set.join(' ');
+  }
   type = type.toLowerCase();
   if (type === 'chord') {
     formattedSet = '<' + formattedSet + '>';
@@ -27,7 +35,7 @@ const formatterLy = (arr, type = 'default') => {
 }
 
 // ^.-- Random Chord Generator --.^ \\
-let randChordGen = (arr, count, order) => {
+const randChordGen = (arr, count, order) => {
   let finalChord = [];
 
   const randNote = (arr) => {
@@ -67,7 +75,7 @@ let repeater = (music, reps) => {
   let repeat = '';
   let i = 0;
   while (i < reps) {
-    repeat += music;
+    repeat += music + ' ';
     i++;
   }
   return repeat;
@@ -77,14 +85,6 @@ String.prototype.regexIndexOf = function(regex, startpos) {
     var indexOf = this.substring(startpos || 0).search(regex);
     return (indexOf >= 0) ? (indexOf + (startpos || 0)) : indexOf;
 }
-
-// console.log(playScale(harmonic_sets.Major[0][1], 4).regexIndexOf(/[0-9]/, 0));
-// let cMajor1 = randChordGen(harmonic_sets.Minor.db[1], 4, 'sort');
-// let cMajor2 = playScale(harmonic_sets.Major.c[1], 4);
-// let c10 = repeater(cMajor1, 10);
-// runtime = cellFold(playScale(harmonic_sets.Major.c[1], 4), 'rest');
-// runtime += cellFold(playScale(harmonic_sets.Major.d[1], 4), 'rest');
-// console.log(playScale(harmonic_sets.Major.db[1], 4));
 
 const sequence = () => {
   let data = '';

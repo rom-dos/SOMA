@@ -9,6 +9,7 @@ let playScale = (set, time) => {
 }
 */
 
+/*
 const formatterLy = (arr, type = 'default') => {
   let formattedSet = arr.join(' ');
 
@@ -35,7 +36,26 @@ const cellFold = (str, type) => {
   }
 }
 cellFold(testScale, 'rest');
-
+*/
 
 let myScale = ['c','d','e','f','g','a','b'];
+
+let quantSet = (set, quant = 4) => {
+  let localSet = set;
+  let first = localSet[0];
+  first += quant;
+  localSet[0] = first;
+  return localSet;
+}
+
+// ^.-- Play Scale --.^ \\
+// default quantization set to 1/4 notes
+let playScale = (set, quant = 4) => {
+  let localSet = quantSet(set, quant);
+  return localSet.join(' ');
+  // return scale;
+}
+console.log(playScale(myScale));
+
+
 // playScale(myScale, 4);
