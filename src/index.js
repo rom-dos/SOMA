@@ -1,5 +1,5 @@
 const fs = require('fs')
-const harmonic_sets = require('./harmonic_sets')
+const harmonicSets = require('./harmonicSets')
 
 // ^.-- quant --.^ \\
 // 1 = whole note, 2 = 1/2 note, 4 = 1/4 note, 8 = 1/8 note
@@ -88,9 +88,9 @@ String.prototype.regexIndexOf = function(regex, startpos) {
 
 const sequence = () => {
   let data = ''
-  data += cellFold(playScale(harmonic_sets.Major[0][1], 8), 'rest')
+  data += cellFold(playScale(harmonicSets.Major[0][1], 8), 'rest')
   for (let i = 1; i <= 11; i++) {
-    let newLine = cellFold(playScale(harmonic_sets.Major[i][1], 8), 'rest')
+    let newLine = cellFold(playScale(harmonicSets.Major[i][1], 8), 'rest')
     newLine = newLine.split(' ')
     let firstNote = newLine[0]
     let splicePoint = firstNote.regexIndexOf(/[0-9]/, 0)
@@ -136,7 +136,7 @@ const printLilyPond = (music, time) => {
   return txt
 }
 
-fs.writeFile('../output/runtime.ly', printLilyPond(test), err => {
+fs.writeFile('../output/runtime081018.ly', printLilyPond(test), err => {
   if (err) throw err
 
   console.log('Success!')
