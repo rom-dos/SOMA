@@ -1,10 +1,10 @@
 {
-  "name": "soma",
-  "version": "0.0.1",
+  "name": "SOMA",
+  "version": "0.0.2",
   "description": "compositional tools for manipulating LilyPond data and rendering MIDI",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/rom-dos/SOMA/issues"
   },
-  "homepage": "https://github.com/rom-dos/SOMA#readme"
+  "homepage": "https://github.com/rom-dos/SOMA#readme",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0"
+  }
 }
