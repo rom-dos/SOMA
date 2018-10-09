@@ -1,4 +1,6 @@
 .tern-port
-output/
 .DS_Store
+
 file-structure.md
+misc/
+output/
