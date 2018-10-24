@@ -11,12 +11,46 @@ const quantSet = (set, quant = 4) => {
 }
 
 // ^.-- Play Scale --.^ \\
-let playScale = (set, quant = 4) => {
+const playScale = (set, quant = 4) => {
   let localSet = quantSet(set, quant)
   return localSet.join(' ')
 }
 
+// ^.-- PRINT --.^ \\
+const printLilyPond = (music, time) => {
+  let txt = `\\version "2.18.2"
+  
+  upper = \\relative c' {
+  \\clef treble
+  \\key c \\major
+  \\time 4/4
+
+      ${music} 
+  }
+
+  lower = \\relative c {
+  \\clef bass
+  \\key c \\major
+  \\time 4/4
+
+    r1 |  
+  }
+
+  \\score {
+    \\new PianoStaff \\with { instrumentName = #"Piano" }
+    <<
+      \\new Staff = "upper" \\upper
+      \\new Staff = "lower" \\lower
+    >>
+    \\layout { }
+    \\midi { }
+  }
+`
+  return txt
+}
+
 module.exports = {
   quantSet,
-  playScale
+  playScale,
+  printLilyPond
 }
