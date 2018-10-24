@@ -1,6 +1,10 @@
-# soma
+<img src="img/soma-logo-v2.png" align="center" alt="">
 
-compositional tools for manipulating LilyPond data and rendering MIDI
+
+
+**compositional tools for manipulating LilyPond data and rendering MIDI**
+
+
 
 ## Dependencies
 
