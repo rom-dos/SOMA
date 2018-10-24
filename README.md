@@ -1,4 +1,6 @@
-<img src="img/soma-logo-v2.png" align="center" alt="">
+<p align="center">
+<img src="img/soma-logo-v2.png" alt="">
+</p>
 
 
 
