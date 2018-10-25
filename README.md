@@ -6,7 +6,7 @@
 
 **compositional tools for manipulating LilyPond data and rendering MIDI**
 
-
+[![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
 
 ## Dependencies
 
