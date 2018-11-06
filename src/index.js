@@ -18,11 +18,11 @@ program
   .description('System Of Musical Architecture')
 
 program
-  .command('printScale <type> <key>')
+  .command('printScale <type> <key> <quant>')
   .alias('ps')
   .description('Print scale(s)')
-  .action((type, key) => {
-    output(playScale(harmonicSets[type][key][1]))
+  .action((type, key, quant) => {
+    output(playScale(harmonicSets[type][key][1], quant))
   })
 
 program.parse(process.argv)
