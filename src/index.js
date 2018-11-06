@@ -1,13 +1,8 @@
 const fs = require('fs')
 const harmonicSets = require('./harmonicSets')
 const { playScale, printLilyPond } = require('./utils.js')
-const readline = require('readline')
 const { timeStamp } = require('@rom-dos/timestamp')
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-})
+const program = require('commander')
 
 const output = (input) => {
   const time = timeStamp()
@@ -18,32 +13,16 @@ const output = (input) => {
   })
 }
 
-console.log(`
-Welcome to System of Musical Architecture (SOMA)
-Version: 0.0.3 
-Author: ROM-DOS`)
+program
+  .version('0.1.0')
+  .description('System Of Musical Architecture')
 
-rl.question(`
-Please select one of the options below to get started:
+program
+  .command('printScale <type> <key>')
+  .alias('ps')
+  .description('Print scale(s)')
+  .action((type, key) => {
+    output(playScale(harmonicSets[type][key][1]))
+  })
 
-[1] Print Scales
-
-Enter your choice: `, (selection) => {
-  switch (selection) {
-    case '1':
-      console.log('You\'ve selected to print scales')
-      rl.question(`
-    Select a scale type:
-
-    [Major] Major
-    [Minor] Minor
-
-    Enter your choice: `, (selection) => {
-        output(playScale(harmonicSets[selection]['c'][1]))
-        rl.close()
-      })
-      break
-    default:
-      break
-  }
-})
+program.parse(process.argv)

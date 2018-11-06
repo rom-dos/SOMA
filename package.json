@@ -21,6 +21,7 @@
     "mocha": "^5.2.0"
   },
   "dependencies": {
-    "@rom-dos/timestamp": "^1.0.0"
+    "@rom-dos/timestamp": "^1.0.0",
+    "commander": "^2.19.0"
   }
 }
