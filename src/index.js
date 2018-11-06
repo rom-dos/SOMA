@@ -1,8 +1,8 @@
 const fs = require('fs')
 const harmonicSets = require('./harmonicSets')
-const utils = require('./utils.js')
+const { playScale, printLilyPond } = require('./utils.js')
 const readline = require('readline')
-const ts = require('@rom-dos/timestamp')
+const { timeStamp } = require('@rom-dos/timestamp')
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -10,8 +10,8 @@ const rl = readline.createInterface({
 })
 
 const output = (input) => {
-  const time = ts.timeStamp()
-  fs.writeFile(`../output/${time}.ly`, utils.printLilyPond(input), err => {
+  const time = timeStamp()
+  fs.writeFile(`../output/${time}.ly`, printLilyPond(input), err => {
     if (err) throw err
 
     console.log('Success! Check the output directory')
@@ -39,7 +39,7 @@ Enter your choice: `, (selection) => {
     [Minor] Minor
 
     Enter your choice: `, (selection) => {
-        output(utils.playScale(harmonicSets[selection]['c'][1]))
+        output(playScale(harmonicSets[selection]['c'][1]))
         rl.close()
       })
       break

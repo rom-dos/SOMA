@@ -1,6 +1,6 @@
 {
-  "name": "SOMA",
-  "version": "0.0.3",
+  "name": "soma",
+  "version": "0.1.0",
   "description": "compositional tools for manipulating LilyPond data and rendering MIDI",
   "main": "index.js",
   "scripts": {
