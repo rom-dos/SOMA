@@ -16,6 +16,23 @@ const playScale = (set, quant = 4) => {
   return localSet.join(' ')
 }
 
+// ^.-- Cell Fold --.^ \\
+const cellFold = (str, type) => {
+  if (type.toLowerCase() === 'rest' || type.toLowerCase() === 'r') {
+    str += ' r '
+    return str
+  } else if (type.toLowerCase() === 'fold') {
+    let newArr = str.split(' ')
+    newArr.push(newArr[newArr.length - 2])
+    let newStr = newArr.join(' ')
+    return newStr
+  } else if (type.toLowerCase() === 'turnup') {
+    let newStr = str
+    newStr += ` ${newStr.match(/[a-z]+/i)}`
+    return newStr
+  }
+}
+
 // ^.-- PRINT --.^ \\
 const printLilyPond = (music, time) => {
   let txt = `\\version "2.18.2"
@@ -88,19 +105,6 @@ const randChordGen = (arr, count, order) => {
   }
 }
 
-// ^.-- Cell Fold --.^ \\
-const cellFold = (str, type) => {
-  if (type.toLowerCase() === 'rest') {
-    str += ' r | '
-    return str
-  } else {
-    let newArr = str.split(' ')
-    newArr.push(newArr[newArr.length - 2])
-    let newStr = newArr.join(' ')
-    return newStr
-  }
-}
-
 // ^.-- Repeater --.^ \\
 let repeater = (music, reps) => {
   let repeat = ''
@@ -138,5 +142,6 @@ let test = sequence()
 module.exports = {
   quantSet,
   playScale,
+  cellFold,
   printLilyPond
 }
