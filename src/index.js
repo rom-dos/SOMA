@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const program = require('commander')
 const fs = require('fs')
 const harmonicSets = require('./harmonicSets')
@@ -23,7 +25,11 @@ program
   .description('Print scale(s)')
   .action((type, key, quant, tail) => {
     if (key.toLowerCase() === 'all') {
-      output(sequence(type, quant, tail))
+      const seq = ['c', 'db', 'd', 'eb', 'e', 'f', 'gb', 'g', 'ab', 'a', 'bb', 'b']
+      output(sequence(seq, type, quant, tail))
+    } else if (key.length > 2) {
+      const seq = key.split(' ')
+      output(sequence(seq, type, quant, tail))
     } else {
       output(cellFold(playScale(harmonicSets[type][key][1], quant), tail))
     }

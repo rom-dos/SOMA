@@ -42,12 +42,10 @@ String.prototype.regexIndexOf = function (regex, startpos) {
 }
 /* eslint-enable */
 
-const sequence = (type, quant, tail) => {
-  const all = ['c', 'db', 'd', 'eb', 'e', 'f', 'gb', 'g', 'ab', 'a', 'bb', 'b']
-
+const sequence = (seq, type, quant, tail) => {
   let data = ''
-  data += cellFold(playScale(harmonicSets[type]['c'][1], quant), tail)
-  all.slice(1).forEach(i => {
+  data += cellFold(playScale(harmonicSets[type][seq[0]][1], quant), tail)
+  seq.slice(1).forEach(i => {
     let newLine = cellFold(playScale(harmonicSets[type][i][1], quant), tail)
     newLine = newLine.split(' ')
     let firstNote = newLine[0]
