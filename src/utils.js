@@ -1,3 +1,5 @@
+const harmonicSets = require('./harmonicSets')
+
 // ^.-- quant --.^ \\
 // 1 = whole note, 2 = 1/2 note, 4 = 1/4 note, 8 = 1/8 note
 // 16 = 1/16 note, 32 = 1/32 note, 64 = 1/64 note, 128 = 1/128 note
@@ -24,13 +26,38 @@ const cellFold = (str, type) => {
   } else if (type.toLowerCase() === 'fold') {
     let newArr = str.split(' ')
     newArr.push(newArr[newArr.length - 2])
-    let newStr = newArr.join(' ')
+    let newStr = `${newArr.join(' ')} `
     return newStr
   } else if (type.toLowerCase() === 'turnup') {
     let newStr = str
-    newStr += ` ${newStr.match(/[a-z]+/i)}`
+    newStr += ` ${newStr.match(/[a-z]+/i)} `
     return newStr
   }
+}
+
+/* eslint-disable */
+String.prototype.regexIndexOf = function (regex, startpos) {
+  let indexOf = this.substring(startpos || 0).search(regex)
+  return (indexOf >= 0) ? (indexOf + (startpos || 0)) : indexOf
+}
+/* eslint-enable */
+
+const sequence = (type, quant, tail) => {
+  const all = ['c', 'db', 'd', 'eb', 'e', 'f', 'gb', 'g', 'ab', 'a', 'bb', 'b']
+
+  let data = ''
+  data += cellFold(playScale(harmonicSets[type]['c'][1], quant), tail)
+  all.slice(1).forEach(i => {
+    let newLine = cellFold(playScale(harmonicSets[type][i][1], quant), tail)
+    newLine = newLine.split(' ')
+    let firstNote = newLine[0]
+    let splicePoint = firstNote.regexIndexOf(/[0-9]/, 0)
+    newLine[0] = firstNote.slice(0, splicePoint) + ',' + firstNote.slice(splicePoint)
+    newLine = newLine.join(' ')
+    data += newLine
+  })
+
+  return data
 }
 
 // ^.-- PRINT --.^ \\
@@ -116,32 +143,12 @@ let repeater = (music, reps) => {
   return repeat
 }
 
-String.prototype.regexIndexOf = function(regex, startpos) {
-  var indexOf = this.substring(startpos || 0).search(regex)
-  return (indexOf >= 0) ? (indexOf + (startpos || 0)) : indexOf
-}
-
-const sequence = () => {
-  let data = ''
-  data += cellFold(playScale(harmonicSets.Major[0][1], 8), 'rest')
-  for (let i = 1; i <= 11; i++) {
-    let newLine = cellFold(playScale(harmonicSets.Major[i][1], 8), 'rest')
-    newLine = newLine.split(' ')
-    let firstNote = newLine[0]
-    let splicePoint = firstNote.regexIndexOf(/[0-9]/, 0)
-    newLine[0] = firstNote.slice(0, splicePoint) + ',' + firstNote.slice(splicePoint)
-    newLine = newLine.join(' ')
-    data += newLine
-  }
-  return data
-}
-
 let test = sequence()
 */
 
 module.exports = {
-  quantSet,
   playScale,
   cellFold,
+  sequence,
   printLilyPond
 }

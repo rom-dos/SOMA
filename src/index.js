@@ -1,7 +1,7 @@
 const program = require('commander')
 const fs = require('fs')
 const harmonicSets = require('./harmonicSets')
-const { playScale, cellFold, printLilyPond } = require('./utils.js')
+const { playScale, cellFold, sequence, printLilyPond } = require('./utils.js')
 const { timeStamp } = require('@rom-dos/timestamp')
 
 const output = (input) => {
@@ -18,11 +18,15 @@ program
   .description('System Of Musical Architecture')
 
 program
-  .command('printScale <type> <key> <quant> <tail>')
+  .command('printScale <sType> <key> <quant> <tail>')
   .alias('ps')
   .description('Print scale(s)')
   .action((type, key, quant, tail) => {
-    output(cellFold(playScale(harmonicSets[type][key][1], quant), tail))
+    if (key.toLowerCase() === 'all') {
+      output(sequence(type, quant, tail))
+    } else {
+      output(cellFold(playScale(harmonicSets[type][key][1], quant), tail))
+    }
   })
 
 program.parse(process.argv)
