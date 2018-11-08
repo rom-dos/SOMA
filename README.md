@@ -1,8 +1,10 @@
 <p align="center">
 <img src="img/soma-logo-v2.png" alt="">
 </p>
-**compositional tools for generating LilyPond data and rendering MIDI**
 
+<p align="center">
+  <strong>compositional tools for generating LilyPond data and rendering MIDI</strong>
+</p>
 -----
 
 [![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
@@ -19,11 +21,15 @@ The existing [LilyPond](http://lilypond.org/) project is already excellent at wh
 
 ## Example
 
-![IMG](img/soma1.gif)
+<p align="center">
+<img src="img/soma1.gif" alt="">
+</p>
 
 The `soma-cli printScale major all 16 fold` command above, will generate the [PDF](examples/20181108-00-55-20.pdf) output below:
 
-![IMG](img/somaPDF.png)
+<p align="center">
+<img src="img/somaPDF.png" alt="">
+</p>
 
 as well as an accompanying [MIDI file](examples/20181108-00-55-20.midi) of the exact same musical material.
 
