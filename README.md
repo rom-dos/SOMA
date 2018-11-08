@@ -7,7 +7,9 @@
 </p>
 <hr>
 
-[![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
+<p align="center">
+  <a href="https://github.com/standard/standard"><img src="https://cdn.rawgit.com/standard/standard/master/badge.svg" alt=""></a>
+</p>
 
 ## Overview
 
