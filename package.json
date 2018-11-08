@@ -1,8 +1,10 @@
 {
-  "name": "soma",
-  "version": "0.1.0",
+  "name": "soma-cli",
+  "version": "0.0.4",
   "description": "compositional tools for manipulating LilyPond data and rendering MIDI",
   "main": "index.js",
+  "preferGlobal": true,
+  "bin": "src/index.js",
   "scripts": {
     "test": "mocha"
   },
@@ -10,8 +12,19 @@
     "type": "git",
     "url": "git+https://github.com/rom-dos/SOMA.git"
   },
-  "author": "nicholas matthew morera",
-  "license": "ISC",
+  "keywords": [
+    "music",
+    "composition",
+    "system",
+    "harmony",
+    "rhythm"
+  ],
+  "author": {
+    "name": "nicholas matthew morera",
+    "email": "morera.computer@gmail.com",
+    "url": "https://moreracomputer.surge.sh"
+  },
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/rom-dos/SOMA/issues"
   },

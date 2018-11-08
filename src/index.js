@@ -6,8 +6,8 @@ const fs = require('fs')
 const harmonicSets = require('./harmonicSets')
 const { playScale, cellFold, sequence, printLilyPond } = require('./utils.js')
 const { timeStamp } = require('@rom-dos/timestamp')
-
 const homedir = require('os').homedir()
+
 shell.mkdir('-p', `${homedir}/soma-output`)
 
 const output = (input) => {
