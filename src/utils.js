@@ -58,7 +58,6 @@ const sequence = (seq, type, quant, tail) => {
   return data
 }
 
-// ^.-- PRINT --.^ \\
 const printLilyPond = (music, time) => {
   let txt = `\\version "2.18.2"
   
@@ -70,19 +69,10 @@ const printLilyPond = (music, time) => {
       ${music} 
   }
 
-  lower = \\relative c {
-  \\clef bass
-  \\key c \\major
-  \\time 4/4
-
-    r1 |  
-  }
-
   \\score {
     \\new PianoStaff \\with { instrumentName = #"Piano" }
     <<
       \\new Staff = "upper" \\upper
-      \\new Staff = "lower" \\lower
     >>
     \\layout { }
     \\midi { }

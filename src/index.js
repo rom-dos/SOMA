@@ -12,13 +12,15 @@ shell.mkdir('-p', `${homedir}/soma-output`)
 
 const output = (input) => {
   const time = timeStamp()
-  // const lilypond = '/Applications/LilyPond.app/Contents/Resources/bin/lilypond'
-  fs.writeFile(`${homedir}/soma-output/${time}.ly`, printLilyPond(input), err => {
-    if (err) throw err
+  const lilypond = '/Applications/LilyPond.app/Contents/Resources/bin/lilypond'
 
-    console.log('Success! Check the output directory')
+  fs.writeFileSync(`${homedir}/soma-output/${time}.ly`, printLilyPond(input), err => {
+    if (err) throw err
   })
-  // shell.exec(`${lilypond} ${homedir}/soma-output/${time}.ly`)
+
+  shell.exec(`${lilypond} ${homedir}/soma-output/${time}.ly`)
+  shell.mv('*.pdf', '*.midi', `${homedir}/soma-output`)
+  console.log('Success! Check the output directory')
 }
 
 program
