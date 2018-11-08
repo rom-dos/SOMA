@@ -1,232 +1,118 @@
 <p align="center">
 <img src="img/soma-logo-v2.png" alt="">
 </p>
+**compositional tools for generating LilyPond data and rendering MIDI**
 
-
-
-**compositional tools for manipulating LilyPond data and rendering MIDI**
+-----
 
 [![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
 
-## Dependencies
+## Overview
 
-- [Node](https://nodejs.org/en/)
-- [LilyPond](http://lilypond.org/)
+`soma-cli` is a Node.js-based CLI, providing compositional tools for generating PDF scores and MIDI files of musical material.
 
-## Use cases
+Despite the abundance of emerging music projects taking advantage of the Web Audio API, few, if any, offer exportability to formats supported by modern Digital Audio Workstations. This seems to limit their application to that of novelty -- undoubtedly creative in exploring modern web technologies, but ultimately impractical for use in the workflow of professional musicians and digital composers.
 
-**Use cases to fulfill**
-1. Print the Major scale in all 12 keys, quantized in 1/4 notes, with a 1/4 note rest after each completion, ascending chromatically. 
-2. Print the Minor scale in all 12 keys, quantized in 1/8 notes, with an 1/8 note rest after each completion, descending chromatically.
-3. Print the Major pentatonic scale in all 12 keys, quantized in 1/4 note triplets, with a 1/4 note triplet rest after each completion, ascending up in 7ths.
-4. Print 16 "throws" of single notes or chords, of random selection, from a supplied harmonic set, quantized in 1/8 notes.
-5. Print 8 chords (variable # of voices), of random selection, from a supplied harmonic set, quantized in 1/2 notes.
-6. Print the sum of 2 harmonic sets combined together, removing duplicate pitches.
-7. Print the sum of 2 harmonic sets combined together, declaring # of pitches from each set and/or total # of pitches in new set.
-8. Print x random notes from a supplied harmonic set.
-9. Print a set reversed.
-10. Print a set inverted x times.
-11. Convert a linear set into a chord comprised of x voices, the chord taking on the combined duration of the individual voices.
-12. Print x random rhythms, fitting in a 4/4 measure.
-13. Print x random rhythms, fitting in a x measure, with range of quantization specified (i.e. 64th - 32nd notes, or 32nd - 1/4 notes)
-14. Quantized set into tuplet (3:2, 5:4, 7:8, 9:8, 15:16...)
+The existing [LilyPond](http://lilypond.org/) project is already excellent at what it does: generating PDFs of musical scores and optionally, MIDI files of the output score. However, the syntax can be tedious for those who don't want to have to write markup language just to generate music.
 
-## API
+`soma-cli` aims to provide a set of modular tools for generating musical material that can then be immediately integrated into a musician's mature process. It abstracts away common musical conventions and choices a musician may make, quickly providing raw materials to later be developed as the user sees fit. The intention is not to realize a system that writes music for you, but rather one that hopefully takes some of the tedious busy work out of making music.
 
-### Time
+## Example
 
-#### `quantSet()`
+![IMG](img/soma1.gif)
 
-```javascript
-// ^.-- quant --.^ \\
-// 1 = whole note, 2 = 1/2 note, 4 = 1/4 note, 8 = 1/8 note
-// 16 = 1/16 note, 32 = 1/32 note, 64 = 1/64 note, 128 = 1/128 note
-// default quantization set to 1/4 notes
-let quantSet = (set, quant = 4) => {
-  let localSet = set;
-  let first = localSet[0];
-  first += quant;
-  localSet[0] = first;
-  return localSet;
-}
+The `soma-cli printScale major all 16 fold` command above, will generate the [PDF](examples/20181108-00-55-20.pdf) output below:
+
+![IMG](img/somaPDF.png)
+
+as well as an accompanying [MIDI file](examples/20181108-00-55-20.midi) of the exact same musical material.
+
+## Installation
+
+```bash
+npm i -g soma-cli
 ```
 
-```javascript
-quantSet(harmonic_sets.Major[10][1], 16);
-// => [ 'bes16', 'c', 'd', 'ees', 'f', 'g', 'a']
+**Note**: you will also need to install [LilyPond](http://lilypond.org/). `soma-cli` uses this for automatically compiling the output `.ly` files into `.pdf` and `.midi`.
+
+`soma-cli` currently only offers support for macOS. Extending support to Linux and Windows is relatively trivial, and will be added in future releases.
+
+If you are receving a `Cannot find module` error upon installing and running `soma-cli`, you likely need to point your `NODE_PATH` to the correct directory. You can do so by adding the following line to your `.bashrc` or `.zshrc`, depending on your shell:
+
+```bash
+export NODE_PATH=/usr/local/lib/node_modules
 ```
 
-#### `playScale()`
+Upon first running, `soma-cli` will create a `soma-output` directory in your Home directory (`~`). All output will be saved there.
 
-```javascript
-// ^.-- Play Scale --.^ \\
-let playScale = (set, quant = 4) => {
-  let localSet = quantSet(set, quant);
-  return localSet.join(' ');
-}
+## Commands
+
+### `printScale` (alias: `ps`)
+
+Prints a scale (or multiple scales), with several different parameters
+
+```bash
+soma-cli printScale <sType> <key> <quant> <tail>
 ```
 
-```javascript
-playScale(harmonic_sets.Major[0][1], 8);
-// => 'c8 d e f g a b'
-```
+#### `<sType>` - Scale type
 
-#### `randChordGen()`
+| Scale type | Argument |
+| ---------- | -------- |
+| Major      | `major`  |
+| Minor      | `minor`  |
 
-```javascript
-// ^.-- Random Chord Generator --.^ \\
-let randChordGen = (arr, count, order) => {
-  let finalChord = [];
+#### `<key>` - Key
 
-  const randNote = (arr) => {
-    return arr[Math.floor(Math.random() * arr.length)];
-  }
+| Key                   | Argument |
+| --------------------- | -------- |
+| C                     | `c`      |
+| Db                    | `db`     |
+| D                     | `d`      |
+| Eb                    | `eb`     |
+| E                     | `e`      |
+| F                     | `f`      |
+| Gb                    | `gb`     |
+| G                     | `g`      |
+| Ab                    | `ab`     |
+| A                     | `a`      |
+| Bb                    | `bb`     |
+| B                     | `b`      |
+| All keys (from C - B) | `all`    |
 
-  while (finalChord.length < count) {
-    let newNote = randNote(arr);
-    if (finalChord.includes(newNote) === false) {
-      finalChord.push(newNote);
-    }
-  }
-  if (order === 'sort') {
-    finalChord = finalChord.sort((a, b) => a - b);
-    finalChord = formatterLy(finalChord, 'chord');
-    return finalChord;
-  } else {
-    return finalChord;
-  }
-}
-```
+`soma-cli` also accepts a user-defined sequence of keys, provided as a `String`, as its `<key>` argument. For example, `'c db e f'` will print the keys C, Db, E and F, in that order. The key sequence can be of any length.
 
-```javascript
-randChordGen(harmonic_sets.Major[3][1], 4, 'sort');
-// => '<f c ees g>'
-```
+#### `<quant>` - Quantization of scale
 
-#### `repeater()`
+| Quantization               | Argument |
+| -------------------------- | -------- |
+| Whole note (1/1)           | `1`      |
+| Half note (1/2)            | `2`      |
+| Quarter note (1/4)         | `4`      |
+| Eighth note (1/8)          | `8`      |
+| Sixteenth note (1/16)      | `16`     |
+| Thirty-second note (1/32)  | `32`     |
+| Sixty-fourth note (1/64)   | `64`     |
+| Hundred twenty-eighth note | `128`    |
 
-```javascript
-// ^.-- Repeater --.^ \\
-let repeater = (music, reps) => {
-  let repeat = '';
-  let i = 0;
-  while (i < reps) {
-    repeat += music + ' ';
-    i++;
-  }
-  return repeat;
-}
-```
+Dotted notes can be indicated by adding a `.` after the integer argument (i.e. `8.`)
 
-```javascript
-let fMajor = randChordGen(harmonic_sets.Major[5][1], 4, 'sort');
-repeater(fMajor, 4);
-// => '<d c f a> <d c f a> <d c f a> <d c f a>'
-```
+#### `<tail>` - Sets the "tail" of the scale
 
-#### `formatterLy()`
+| "Tail"                            | Argument |
+| --------------------------------- | -------- |
+| Rest                              | `rest`   |
+| Add the second to last note       | `fold`   |
+| Add the first note (up an octave) | `turnup` |
 
-```javascript
-// ^.-- LilyPond Formatter --.^ \\
-const formatterLy = (set, type = 'default') => {
-    let formattedSet;
-    if (typeof set === 'string') {
-        formattedSet = set;
-    } else {
-        formattedSet = set.join(' ');
-    }
-    type = type.toLowerCase();
-    if (type === 'chord') {
-        formattedSet = '<' + formattedSet + '>'
-    }
-    return formattedSet;
-}
-```
+## Version History
 
-```javascript
-let dMajor = quantSet(harmonic_sets.Major[2][1], 8);
-formatterLy(dMajor);
-// => 'd8 e ges g a b des'
-```
+See [CHANGELOG](./CHANGELOG.md) for full details
 
-#### `cellFold()`
+## Contributing
 
-```javascript
-// ^.-- Cell Fold --.^ \\
-const cellFold = (str, type) => {
-  if (type.toLowerCase() === 'rest') {
-    str += " r | ";
-    return str;
-  } else {
-    let newArr = str.split(' ');
-    newArr.push(newArr[newArr.length - 2]);
-    let newStr = newArr.join(' ');
-    return newStr;
-  }
-}
-```
+Still in early gestation, the project will primarily be cared for and developed by its original maintainer (me). If you are interested in getting involved in the project, have issues or feedback, please reach out to me directly -- morera.computer@gmail.com
 
-```javascript
-cellFold(playScale(harmonic_sets.Major[10][1], 16), 'normal');
-// => 'bes16 c d ees f g a g'
-```
+## License
 
-#### Arrangement
-
-#### `sequence()`
-
-```javascript
-const sequence = () => {
-  let data = '';
-  data += cellFold(playScale(harmonic_sets.Major[0][1], 8), 'rest');
-  for (let i = 1; i <= 11; i++) {
-    let newLine = cellFold(playScale(harmonic_sets.Major[i][1], 8), 'rest');
-    newLine = newLine.split(' ');
-    let firstNote = newLine[0];
-    let splicePoint = firstNote.regexIndexOf(/[0-9]/, 0);
-    newLine[0] = firstNote.slice(0, splicePoint) + ',' + firstNote.slice(splicePoint);
-    newLine = newLine.join(' ');
-    data += newLine;
-  }
-  return data;
-}
-```
-
-### Output
-
-#### `printLilyPond(music, time)`
-
-```javascript
-// ^.-- PRINT --.^ \\
-const printLilyPond = (music, time) => {
-  let txt = `\\version "2.18.2"
-  
-  upper = \\relative c' {
-  \\clef treble
-  \\key c \\major
-  \\time 4/4
-
-      ${music} 
-  }
-
-  lower = \\relative c {
-  \\clef bass
-  \\key c \\major
-  \\time 4/4
-
-    r1 |  
-  }
-
-  \\score {
-    \\new PianoStaff \\with { instrumentName = #"Piano" }
-    <<
-      \\new Staff = "upper" \\upper
-      \\new Staff = "lower" \\lower
-    >>
-    \\layout { }
-    \\midi { }
-  }
-`;
-  return txt;
-}
-```
+MIT © 2018 Nicholas Morera
