@@ -101,7 +101,7 @@ soma-cli printScale <sType> <key> <quant> <tail>
 | Sixteenth note (1/16)      | `16`     |
 | Thirty-second note (1/32)  | `32`     |
 | Sixty-fourth note (1/64)   | `64`     |
-| Hundred twenty-eighth note | `128`    |
+| Hundred twenty-eighth note (/128) | `128`    |
 
 Dotted notes can be indicated by adding a `.` after the integer argument (i.e. `8.`)
 
