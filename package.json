@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@rom-dos/timestamp": "^1.0.0",
-    "commander": "^2.19.0"
+    "commander": "^2.19.0",
+    "shelljs": "^0.8.2"
   }
 }

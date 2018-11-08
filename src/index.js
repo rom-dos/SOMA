@@ -1,18 +1,24 @@
 #!/usr/bin/env node
 
 const program = require('commander')
+const shell = require('shelljs')
 const fs = require('fs')
 const harmonicSets = require('./harmonicSets')
 const { playScale, cellFold, sequence, printLilyPond } = require('./utils.js')
 const { timeStamp } = require('@rom-dos/timestamp')
 
+const homedir = require('os').homedir()
+shell.mkdir('-p', `${homedir}/soma-output`)
+
 const output = (input) => {
   const time = timeStamp()
-  fs.writeFile(`../output/${time}.ly`, printLilyPond(input), err => {
+  // const lilypond = '/Applications/LilyPond.app/Contents/Resources/bin/lilypond'
+  fs.writeFile(`${homedir}/soma-output/${time}.ly`, printLilyPond(input), err => {
     if (err) throw err
 
     console.log('Success! Check the output directory')
   })
+  // shell.exec(`${lilypond} ${homedir}/soma-output/${time}.ly`)
 }
 
 program
