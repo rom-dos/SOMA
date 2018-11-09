@@ -58,6 +58,43 @@ const sequence = (seq, type, quant, tail) => {
   return data
 }
 
+// ^.-- Random Chord Generator --.^ \\
+const randChordGen = (arr, count, order) => {
+  let finalChord = []
+
+  const randNote = (arr) => {
+    return arr[Math.floor(Math.random() * arr.length)]
+  }
+
+  while (finalChord.length < count) {
+    let newNote = randNote(arr)
+    if (finalChord.includes(newNote) === false) {
+      finalChord.push(newNote)
+    }
+  }
+  if (order === 'sort') {
+    finalChord = finalChord.sort((a, b) => a > b)
+    return finalChord
+  } else {
+    return finalChord
+  }
+}
+
+// ^.-- LilyPond Formatter --.^ \\
+const formatterLy = (set, type = 'default') => {
+  let formattedSet
+  if (typeof set === 'string') {
+    formattedSet = set
+  } else {
+    formattedSet = set.join(' ')
+  }
+  type = type.toLowerCase()
+  if (type === 'chord') {
+    formattedSet = '<' + formattedSet + '>'
+  }
+  return formattedSet
+}
+
 const printLilyPond = (music, time) => {
   let txt = `\\version "2.18.2"
   
@@ -82,44 +119,6 @@ const printLilyPond = (music, time) => {
 }
 
 /*
-// ^.-- LilyPond Formatter --.^ \\
-const formatterLy = (set, type = 'default') => {
-  let formattedSet
-  if (typeof set === 'string') {
-    formattedSet = set
-  } else {
-    formattedSet = set.join(' ')
-  }
-  type = type.toLowerCase()
-  if (type === 'chord') {
-    formattedSet = '<' + formattedSet + '>'
-  }
-  return formattedSet
-}
-
-// ^.-- Random Chord Generator --.^ \\
-const randChordGen = (arr, count, order) => {
-  let finalChord = []
-
-  const randNote = (arr) => {
-    return arr[Math.floor(Math.random() * arr.length)]
-  }
-
-  while (finalChord.length < count) {
-    let newNote = randNote(arr)
-    if (finalChord.includes(newNote) === false) {
-      finalChord.push(newNote)
-    }
-  }
-  if (order === 'sort') {
-    finalChord = finalChord.sort((a, b) => a - b)
-    finalChord = formatterLy(finalChord, 'chord')
-    return finalChord
-  } else {
-    return finalChord
-  }
-}
-
 // ^.-- Repeater --.^ \\
 let repeater = (music, reps) => {
   let repeat = ''
@@ -130,13 +129,14 @@ let repeater = (music, reps) => {
   }
   return repeat
 }
-
-let test = sequence()
 */
 
 module.exports = {
+  quantSet,
   playScale,
   cellFold,
   sequence,
+  randChordGen,
+  formatterLy,
   printLilyPond
 }

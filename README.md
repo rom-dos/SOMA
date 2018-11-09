@@ -21,7 +21,7 @@ The existing [LilyPond](http://lilypond.org/) project is already excellent at wh
 
 `soma-cli` aims to provide a set of modular tools for generating musical material that can then be immediately integrated into a musician's mature process. It abstracts away common musical conventions and choices a musician may make, quickly providing raw materials to later be developed as the user sees fit. The intention is not to realize a system that writes music for you, but rather one that hopefully takes some of the tedious busy work out of making music.
 
-## Example
+## Examples
 
 <p align="center">
 <img src="img/soma1.gif" alt="">
@@ -112,6 +112,39 @@ Dotted notes can be indicated by adding a `.` after the integer argument (i.e. `
 | Rest                              | `rest`   |
 | Add the second to last note       | `fold`   |
 | Add the first note (up an octave) | `turnup` |
+
+
+
+### `chordGen` (alias: `cg`)
+
+Generate chords within a given key
+
+```bash
+soma-cli chordGen <type> <key> <count> <order> <num>
+```
+
+#### `<type>` - Scale type
+
+Same scales are available as in the `printScale` command
+
+#### `<key>` - Key
+
+Same keys are available as in the `printScale` command
+
+#### `<count>` - Number of notes in the chord
+
+An integer from `1` - the selected scale length. Unique chord permutations are limited based on the total number of notes in the selected scale, and number of notes selected per chord.
+
+#### `<order>` - Ordering of notes in the chord
+
+| Ordering                                                  | Argument |
+| --------------------------------------------------------- | -------- |
+| Sort notes alphabetically                                 | `sort`   |
+| Sort notes in the order they were generated (i.e. random) | `unsort` |
+
+#### `<num>` - Number of chords to generate
+
+A number from `1` - ∞. Unique chord permutations are limited based on the total number of notes in the selected scale.
 
 ## Version History
 

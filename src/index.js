@@ -4,9 +4,18 @@ const program = require('commander')
 const shell = require('shelljs')
 const fs = require('fs')
 const harmonicSets = require('./harmonicSets')
-const { playScale, cellFold, sequence, printLilyPond } = require('./utils.js')
 const { timeStamp } = require('@rom-dos/timestamp')
 const homedir = require('os').homedir()
+
+const {
+  quantSet,
+  playScale,
+  cellFold,
+  sequence,
+  randChordGen,
+  formatterLy,
+  printLilyPond
+} = require('./utils.js')
 
 shell.mkdir('-p', `${homedir}/soma-output`)
 
@@ -41,6 +50,21 @@ program
     } else {
       output(cellFold(playScale(harmonicSets[type][key][1], quant), tail))
     }
+  })
+
+program
+  .command('chordGen <type> <key> <count> <order> <num>')
+  .alias('cg')
+  .description('Generate chords within a given a key')
+  .action((type, key, count, order, num) => {
+    let i = 0
+    let data = ''
+    while (i < num) {
+      data += formatterLy(randChordGen(harmonicSets[type][key][1], count, order), 'chord')
+      data += `1 `
+      i++
+    }
+    output(data)
   })
 
 program.parse(process.argv)

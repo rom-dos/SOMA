@@ -1,6 +1,6 @@
 {
   "name": "soma-cli",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "compositional tools for manipulating LilyPond data and rendering MIDI",
   "main": "index.js",
   "preferGlobal": true,
