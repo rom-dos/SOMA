@@ -55,6 +55,12 @@ npm i -g soma-cli
 
 **Note**: you will also need to install [LilyPond](http://lilypond.org/). `soma-cli` uses this for automatically compiling the output `.ly` files into `.pdf` and `.midi`.
 
+Install LilyPond via Homebrew:
+
+```bash
+brew cask install lilypond
+```
+
 `soma-cli` currently only offers support for macOS. Extending support to Linux and Windows is relatively trivial, and will be added in future releases.
 
 If you are receving a `Cannot find module` error upon installing and running `soma-cli`, you likely need to point your `NODE_PATH` to the correct directory. You can do so by adding the following line to your `.bashrc` or `.zshrc`, depending on your shell:
