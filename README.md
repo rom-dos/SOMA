@@ -5,6 +5,7 @@
 <p align="center">
   <strong>compositional tools for generating LilyPond data and rendering MIDI</strong>
 </p>
+<p align="center">🍄</p>
 <hr>
 
 <p align="center">
@@ -19,7 +20,7 @@ Despite the abundance of emerging music projects taking advantage of the Web Aud
 
 The existing [LilyPond](http://lilypond.org/) project is already excellent at what it does: generating PDFs of musical scores and optionally, MIDI files of the output score. However, the syntax can be tedious for those who don't want to have to write markup language just to generate music.
 
-`soma-cli` aims to provide a set of modular tools for generating musical material that can then be immediately integrated into a musician's mature process. It abstracts away common musical conventions and choices a musician may make, quickly providing raw materials to later be developed as the user sees fit. The intention is not to realize a system that writes music for you, but rather one that hopefully takes some of the tedious busy work out of making music.
+`soma-cli` aims to provide a set of modular, declarative tools for generating musical material that can then be immediately integrated into a musician's mature process. It abstracts away common musical conventions and choices a musician may make, quickly providing raw materials to later be developed as the user sees fit. The intention is not to realize a system that writes music for you, but rather one that hopefully takes some of the tedious busy work out of making music.
 
 ## Examples
 
