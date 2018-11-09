@@ -5,7 +5,6 @@
 <p align="center">
   <strong>compositional tools for generating LilyPond data and rendering MIDI</strong>
 </p>
-<p align="center">🍄</p>
 <hr>
 
 <p align="center">
