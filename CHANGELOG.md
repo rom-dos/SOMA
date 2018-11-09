@@ -1,3 +1,9 @@
+## 0.0.5 (November 8, 2018)
+
+### `chordGen`
+
+- add `chordGen` command with initial functionality
+
 ## 0.0.4 (November 7, 2018)
 
 ### `printScale`

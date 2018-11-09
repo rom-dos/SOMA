@@ -23,6 +23,14 @@ The existing [LilyPond](http://lilypond.org/) project is already excellent at wh
 
 ## Examples
 
+![IMG](img/soma2.gif)
+
+The `soma-cli chordGen minor eb 4 sort 6` command above, will generate the [PDF](20181108-17-26-55.pdf) below (or 6 other random 4-note chords from the Eb minor scale):
+
+![IMG](img/somaPDF2.png)
+
+as well as an accompanying [MIDI file](examples/20181108-17-26-55.midi) of the exact same musical material.
+
 <p align="center">
 <img src="img/soma1.gif" alt="">
 </p>
@@ -52,6 +60,8 @@ export NODE_PATH=/usr/local/lib/node_modules
 ```
 
 Upon first running, `soma-cli` will create a `soma-output` directory in your Home directory (`~`). All output will be saved there.
+
+Each rendering of music material will be saved as unique files (in `.ly`, `.pdf` and `.midi` formats), timestamped with the time of its rendering (in `YYYYMMDD-HH-MM-SS` format).
 
 ## Commands
 
