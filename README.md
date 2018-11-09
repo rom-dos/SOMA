@@ -23,11 +23,15 @@ The existing [LilyPond](http://lilypond.org/) project is already excellent at wh
 
 ## Examples
 
-![IMG](img/soma2.gif)
+<p align="center">
+<img src="img/soma2.gif" alt="">
+</p>
 
 The `soma-cli chordGen minor eb 4 sort 6` command above, will generate the [PDF](20181108-17-26-55.pdf) below (or 6 other random 4-note chords from the Eb minor scale):
 
-![IMG](img/somaPDF2.png)
+<p align="center">
+<img src="img/somaPDF2.png" alt="">
+</p>
 
 as well as an accompanying [MIDI file](examples/20181108-17-26-55.midi) of the exact same musical material.
 
