@@ -6,7 +6,8 @@
   "preferGlobal": true,
   "bin": "src/index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "jest",
+    "watch": "jest --watch"
   },
   "repository": {
     "type": "git",
@@ -31,6 +32,7 @@
   "homepage": "https://github.com/rom-dos/SOMA#readme",
   "devDependencies": {
     "chai": "^4.2.0",
+    "jest": "^23.6.0",
     "mocha": "^5.2.0"
   },
   "dependencies": {
