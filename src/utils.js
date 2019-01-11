@@ -44,6 +44,10 @@ String.prototype.regexIndexOf = function (regex, startpos) {
 
 /* -- sequence -- */
 const sequence = (seq, type, quant, tail) => {
+  if (typeof seq === 'string') {
+    seq = seq.split(' ')
+  }
+
   let data = ''
   data += cellFold(playScale(harmonicSets[type][seq[0]][1], quant), tail)
   seq.slice(1).forEach(i => {
