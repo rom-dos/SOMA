@@ -1,6 +1,6 @@
 const harmonicSets = require('./harmonicSets')
 
-// ^.-- quant --.^ \\
+/* -- quantSet -- */
 // 1 = whole note, 2 = 1/2 note, 4 = 1/4 note, 8 = 1/8 note
 // 16 = 1/16 note, 32 = 1/32 note, 64 = 1/64 note, 128 = 1/128 note
 // default quantization set to 1/4 notes
@@ -12,13 +12,13 @@ const quantSet = (set, quant = 4) => {
   return localSet
 }
 
-// ^.-- Play Scale --.^ \\
+/* -- playScale -- */
 const playScale = (set, quant = 4) => {
   let localSet = quantSet(set, quant)
   return localSet.join(' ')
 }
 
-// ^.-- Cell Fold --.^ \\
+/* -- cellFold -- */
 const cellFold = (str, type) => {
   if (type.toLowerCase() === 'rest' || type.toLowerCase() === 'r') {
     str += ' r '
@@ -42,6 +42,7 @@ String.prototype.regexIndexOf = function (regex, startpos) {
 }
 /* eslint-enable */
 
+/* -- sequence -- */
 const sequence = (seq, type, quant, tail) => {
   let data = ''
   data += cellFold(playScale(harmonicSets[type][seq[0]][1], quant), tail)
@@ -58,7 +59,7 @@ const sequence = (seq, type, quant, tail) => {
   return data
 }
 
-// ^.-- Random Chord Generator --.^ \\
+/* -- randChordGen -- */
 const randChordGen = (arr, count, order) => {
   let finalChord = []
 
@@ -80,7 +81,7 @@ const randChordGen = (arr, count, order) => {
   }
 }
 
-// ^.-- LilyPond Formatter --.^ \\
+/* -- formatterLy -- */
 const formatterLy = (set, type = 'default') => {
   let formattedSet
   if (typeof set === 'string') {
@@ -95,6 +96,7 @@ const formatterLy = (set, type = 'default') => {
   return formattedSet
 }
 
+/* -- printLilyPond -- */
 const printLilyPond = (music, time) => {
   let txt = `\\version "2.18.2"
   

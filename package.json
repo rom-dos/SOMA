@@ -7,7 +7,8 @@
   "bin": "src/index.js",
   "scripts": {
     "test": "jest",
-    "watch": "jest --watch"
+    "watch": "jest --watch",
+    "coverage": "jest --coverage"
   },
   "repository": {
     "type": "git",
