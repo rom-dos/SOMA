@@ -10,6 +10,9 @@
 <p align="center">
   <a href="https://github.com/standard/standard"><img src="https://cdn.rawgit.com/standard/standard/master/badge.svg" alt=""></a>
 </p>
+<p align="center">
+  <a href="https://codecov.io/gh/rom-dos/soma/"><img src="https://img.shields.io/codecov/c/github/rom-dos/soma/master.svg?style=flat-square" alt="Codecov Coverage"></a>
+</p>
 
 ## Overview
 
