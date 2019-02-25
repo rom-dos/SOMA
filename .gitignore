@@ -6,3 +6,4 @@ misc/
 output/
 node_modules/
 coverage/
+soma-codecov.sh
