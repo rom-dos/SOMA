@@ -1,8 +1,6 @@
 .tern-port
 .DS_Store
 
-file-structure.md
-misc/
 output/
 node_modules/
 coverage/
