@@ -33,7 +33,7 @@ const output = (input) => {
 }
 
 program
-  .version('0.0.4')
+  .version('0.0.6')
   .description('System Of Musical Architecture')
 
 program
