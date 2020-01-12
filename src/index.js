@@ -16,7 +16,8 @@ const {
   printLilyPond,
   transposeSet,
   convertDigitToNoteSet,
-  convertNoteToDigit
+  convertNoteToDigit,
+  convertHumanToLySyntax
 } = require('./utils.js')
 
 shell.mkdir('-p', `${homedir}/soma-output`)
@@ -61,7 +62,12 @@ program
     } else {
       const data = cellFold(
         playScale(
-          convertDigitToNoteSet(transposeSet(harmonicSets[type], convertNoteToDigit(key))),
+          convertDigitToNoteSet(
+            transposeSet(
+              harmonicSets[type],
+              convertNoteToDigit(convertHumanToLySyntax(key))
+            )
+          ),
           quant
         ),
         tail

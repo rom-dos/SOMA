@@ -5,7 +5,7 @@ const harmonicSets = require('./harmonicSets')
 // 16 = 1/16 note, 32 = 1/32 note, 64 = 1/64 note, 128 = 1/128 note
 // default quantization set to 1/4 notes
 const quantSet = (set, quant = 4) => {
-  let localSet = set
+  const localSet = set
   let first = localSet[0]
   first += quant
   localSet[0] = first
@@ -14,7 +14,7 @@ const quantSet = (set, quant = 4) => {
 
 /* -- playScale -- */
 const playScale = (set, quant = 4) => {
-  let localSet = quantSet(set, quant)
+  const localSet = quantSet(set, quant)
   return localSet.join(' ')
 }
 
@@ -24,9 +24,9 @@ const cellFold = (str, type) => {
     str += ' r '
     return str
   } else if (type.toLowerCase() === 'fold') {
-    let newArr = str.split(' ')
+    const newArr = str.split(' ')
     newArr.push(newArr[newArr.length - 2])
-    let newStr = `${newArr.join(' ')} `
+    const newStr = `${newArr.join(' ')} `
     return newStr
   } else if (type.toLowerCase() === 'turnup') {
     let newStr = str
@@ -42,6 +42,23 @@ String.prototype.regexIndexOf = function (regex, startpos) {
 }
 /* eslint-enable */
 
+const humanToLy = {
+  c: 'c',
+  db: 'des',
+  d: 'd',
+  eb: 'ees',
+  e: 'e',
+  f: 'f',
+  gb: 'ges',
+  g: 'g',
+  ab: 'aes',
+  a: 'a',
+  bb: 'bes',
+  b: 'b'
+}
+
+const convertHumanToLySyntax = note => humanToLy[note]
+
 /* -- sequence -- */
 const sequence = (seq, type, quant, tail) => {
   if (typeof seq === 'string') {
@@ -51,15 +68,15 @@ const sequence = (seq, type, quant, tail) => {
   let data = ''
   data += cellFold(playScale(convertDigitToNoteSet(harmonicSets[type]), quant), tail)
 
-  seq.slice(1).forEach(i => {
+  seq.slice(1).forEach(x => {
     let newLine = cellFold(
-      cellFold(
-        playScale(
-          convertDigitToNoteSet(transposeSet(harmonicSets[type], convertNoteToDigit(i))),
-          quant
+      playScale(
+        convertDigitToNoteSet(
+          transposeSet(harmonicSets[type], convertNoteToDigit(convertHumanToLySyntax(x)))
         ),
-        tail
-      )
+        quant
+      ),
+      tail
     )
 
     newLine = newLine.split(' ')
@@ -82,7 +99,7 @@ const randChordGen = (arr, count, order) => {
   }
 
   while (finalChord.length < count) {
-    let newNote = randNote(arr)
+    const newNote = randNote(arr)
     if (finalChord.includes(newNote) === false) {
       finalChord.push(newNote)
     }
@@ -184,5 +201,6 @@ module.exports = {
   printLilyPond,
   convertDigitToNoteSet,
   convertNoteToDigit,
-  transposeSet
+  transposeSet,
+  convertHumanToLySyntax
 }
