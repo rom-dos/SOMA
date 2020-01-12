@@ -63,10 +63,10 @@ program
  * <log> = logging or regular output (any truthy value will turn on logging)
  */
 program
-  .command('chordGen <type> <key> <count> <order> <num> <log>')
+  .command('chordGen <type> <key> <count> <order> <num> <mode>')
   .alias('cg')
   .description('Generate chords within a given a key')
-  .action((type, key, count, order, num, log = false) => {
+  .action((type, key, count, order, num, mode) => {
     let i = 0
     let data = ''
     while (i < num) {
@@ -85,7 +85,7 @@ program
       data += '1 '
       i++
     }
-    log ? (
+    mode === 'log' ? (
       console.table(data.split('1 ').map(x => x.concat(1)).slice(0, -1))
     ) : (
       output(data)
