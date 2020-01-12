@@ -102,7 +102,7 @@ const formatterLy = (set, type = 'default') => {
 
 /* -- printLilyPond -- */
 const printLilyPond = (music, time) => {
-  let txt = `\\version "2.18.2"
+  const txt = `\\version "2.18.2"
   
   upper = \\relative c' {
   \\clef treble
@@ -124,18 +124,45 @@ const printLilyPond = (music, time) => {
   return txt
 }
 
-/*
-// ^.-- Repeater --.^ \\
-let repeater = (music, reps) => {
-  let repeat = ''
-  let i = 0
-  while (i < reps) {
-    repeat += music + ' '
-    i++
-  }
-  return repeat
+const transpose = (x, transp) => (transp > 0) ? ((x + transp) > 11 ? (x + transp) - 12 : (x + transp)) : ((x + transp) < 0 ? (x + transp) + 12 : (x + transp))
+
+const transposeSet = (set, transp) => set.map(x => transpose(x, transp))
+
+const digitToNote = {
+  0: 'c',
+  1: 'des',
+  2: 'd',
+  3: 'ees',
+  4: 'e',
+  5: 'f',
+  6: 'ges',
+  7: 'g',
+  8: 'aes',
+  9: 'a',
+  10: 'bes',
+  11: 'b'
 }
-*/
+
+const noteToDigit = {
+  c: 0,
+  des: 1,
+  d: 2,
+  ees: 3,
+  e: 4,
+  f: 5,
+  ges: 6,
+  g: 7,
+  aes: 8,
+  a: 9,
+  bes: 10,
+  b: 11
+}
+
+const convertNoteToDigit = (note) => noteToDigit[note.toLowerCase()]
+
+const convertDigitToNote = digit => digitToNote[digit]
+
+const convertDigitToNoteSet = set => set.map(x => convertDigitToNote(x))
 
 module.exports = {
   quantSet,
@@ -144,5 +171,8 @@ module.exports = {
   sequence,
   randChordGen,
   formatterLy,
-  printLilyPond
+  printLilyPond,
+  convertDigitToNoteSet,
+  convertNoteToDigit,
+  transposeSet
 }

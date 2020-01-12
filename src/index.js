@@ -8,13 +8,15 @@ const { timeStamp } = require('@rom-dos/timestamp')
 const homedir = require('os').homedir()
 
 const {
-  quantSet,
   playScale,
   cellFold,
   sequence,
   randChordGen,
   formatterLy,
-  printLilyPond
+  printLilyPond,
+  transposeSet,
+  convertDigitToNoteSet,
+  convertNoteToDigit
 } = require('./utils.js')
 
 shell.mkdir('-p', `${homedir}/soma-output`)
@@ -52,19 +54,42 @@ program
     }
   })
 
+/* chordGen
+ * <type> = type of scale
+ * <key> = key of scale
+ * <count> = number of notes per chord
+ * <order> = `sort` or `unsort`
+ * <num> = number of chords
+ * <log> = logging or regular output (any truthy value will turn on logging)
+ */
 program
-  .command('chordGen <type> <key> <count> <order> <num>')
+  .command('chordGen <type> <key> <count> <order> <num> <log>')
   .alias('cg')
   .description('Generate chords within a given a key')
-  .action((type, key, count, order, num) => {
+  .action((type, key, count, order, num, log = false) => {
     let i = 0
     let data = ''
     while (i < num) {
-      data += formatterLy(randChordGen(harmonicSets[type][key][1], count, order), 'chord')
-      data += `1 `
+      data += (
+        formatterLy(
+          randChordGen(
+            convertDigitToNoteSet(
+              transposeSet(harmonicSets[type], convertNoteToDigit(key))
+            ),
+            count,
+            order
+          ),
+          'chord'
+        )
+      )
+      data += '1 '
       i++
     }
-    output(data)
+    log ? (
+      console.table(data.split('1 ').map(x => x.concat(1)).slice(0, -1))
+    ) : (
+      output(data)
+    )
   })
 
 program.parse(process.argv)
