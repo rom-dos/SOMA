@@ -38,19 +38,36 @@ program
   .version('0.0.6')
   .description('System Of Musical Architecture')
 
+/* printScale
+ * <type> = type of scale
+ * <key> = key of scale
+ * <quant> = quantization of notes
+ * <tail> = sets the 'tail' of the scale (`rest`, `fold`, or `turnup`)
+ * <mode> = `normal` or `log`
+ */
 program
-  .command('printScale <sType> <key> <quant> <tail>')
+  .command('printScale <type> <key> <quant> <tail> <mode>')
   .alias('ps')
   .description('Print scale(s)')
-  .action((type, key, quant, tail) => {
+  .action((type, key, quant, tail, mode) => {
     if (key.toLowerCase() === 'all') {
       const seq = ['c', 'db', 'd', 'eb', 'e', 'f', 'gb', 'g', 'ab', 'a', 'bb', 'b']
-      output(sequence(seq, type, quant, tail))
+      const data = sequence(seq, type, quant, tail)
+      mode === 'log' ? console.log(data) : output(data)
     } else if (key.length > 2) {
       const seq = key.split(' ')
-      output(sequence(seq, type, quant, tail))
+      const data = sequence(seq, type, quant, tail)
+      mode === 'log' ? console.log(data) : output(data)
     } else {
-      output(cellFold(playScale(harmonicSets[type][key][1], quant), tail))
+      const data = cellFold(
+        playScale(
+          convertDigitToNoteSet(transposeSet(harmonicSets[type], convertNoteToDigit(key))),
+          quant
+        ),
+        tail
+      )
+
+      mode === 'log' ? console.log(data) : output(data)
     }
   })
 
@@ -60,7 +77,7 @@ program
  * <count> = number of notes per chord
  * <order> = `sort` or `unsort`
  * <num> = number of chords
- * <log> = logging or regular output (any truthy value will turn on logging)
+ * <mode> = `normal` or `log`
  */
 program
   .command('chordGen <type> <key> <count> <order> <num> <mode>')
@@ -85,6 +102,7 @@ program
       data += '1 '
       i++
     }
+
     mode === 'log' ? (
       console.table(data.split('1 ').map(x => x.concat(1)).slice(0, -1))
     ) : (

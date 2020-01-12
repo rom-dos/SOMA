@@ -49,12 +49,22 @@ const sequence = (seq, type, quant, tail) => {
   }
 
   let data = ''
-  data += cellFold(playScale(harmonicSets[type][seq[0]][1], quant), tail)
+  data += cellFold(playScale(convertDigitToNoteSet(harmonicSets[type]), quant), tail)
+
   seq.slice(1).forEach(i => {
-    let newLine = cellFold(playScale(harmonicSets[type][i][1], quant), tail)
+    let newLine = cellFold(
+      cellFold(
+        playScale(
+          convertDigitToNoteSet(transposeSet(harmonicSets[type], convertNoteToDigit(i))),
+          quant
+        ),
+        tail
+      )
+    )
+
     newLine = newLine.split(' ')
-    let firstNote = newLine[0]
-    let splicePoint = firstNote.regexIndexOf(/[0-9]/, 0)
+    const firstNote = newLine[0]
+    const splicePoint = firstNote.regexIndexOf(/[0-9]/, 0)
     newLine[0] = firstNote.slice(0, splicePoint) + ',' + firstNote.slice(splicePoint)
     newLine = newLine.join(' ')
     data += newLine
