@@ -97,7 +97,7 @@ program
         formatterLy(
           randChordGen(
             convertDigitToNoteSet(
-              transposeSet(harmonicSets[type], convertNoteToDigit(key))
+              transposeSet(harmonicSets[type], convertNoteToDigit(convertHumanToLySyntax(key)))
             ),
             count,
             order
