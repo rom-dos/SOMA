@@ -7,10 +7,7 @@ const harmonicSets = require('./harmonicSets')
 const quantSet = (set, quant = 4) => [set.slice(0, 1)[0].concat(quant), ...set.slice(1)]
 
 /* -- playScale -- */
-const playScale = (set, quant = 4) => {
-  const localSet = quantSet(set, quant)
-  return localSet.join(' ')
-}
+const playScale = (set, quant = 4) => quantSet(set, quant).join(' ')
 
 /* -- cellFold -- */
 const cellFold = (str, type) => {
