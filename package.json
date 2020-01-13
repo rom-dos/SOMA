@@ -33,13 +33,15 @@
   },
   "homepage": "https://github.com/rom-dos/SOMA#readme",
   "devDependencies": {
-    "codecov": "^3.1.0",
+    "codecov": "^3.6.1",
     "jest": "^23.6.0"
   },
   "dependencies": {
     "@rom-dos/timestamp": "^1.0.0",
-    "commander": "^2.19.0",
-    "shelljs": "^0.8.2"
+    "commander": "^2.20.3",
+    "shelljs": "^0.8.3"
   },
-  "publishConfig": { "registry": "https://npm.pkg.github.com/" }
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  }
 }
