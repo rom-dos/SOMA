@@ -1,5 +1,12 @@
 const harmonicSets = require('./harmonicSets')
 
+/* eslint-disable */
+String.prototype.regexIndexOf = function (regex, startpos) {
+  let indexOf = this.substring(startpos || 0).search(regex)
+  return (indexOf >= 0) ? (indexOf + (startpos || 0)) : indexOf
+}
+/* eslint-enable */
+
 /* -- quantSet -- */
 // 1 = whole note, 2 = 1/2 note, 4 = 1/4 note, 8 = 1/8 note
 // 16 = 1/16 note, 32 = 1/32 note, 64 = 1/64 note, 128 = 1/128 note
@@ -24,13 +31,6 @@ const cellFold = (str, type) => {
       return `${str} ${str.match(/[a-z]+/i)} `
   }
 }
-
-/* eslint-disable */
-String.prototype.regexIndexOf = function (regex, startpos) {
-  let indexOf = this.substring(startpos || 0).search(regex)
-  return (indexOf >= 0) ? (indexOf + (startpos || 0)) : indexOf
-}
-/* eslint-enable */
 
 const humanToLy = {
   c: 'c',
@@ -145,21 +145,6 @@ const transpose = (x, transp) => (transp > 0) ? ((x + transp) > 11 ? (x + transp
 
 const transposeSet = (set, transp) => set.map(x => transpose(x, transp))
 
-const digitToNote = {
-  0: 'c',
-  1: 'des',
-  2: 'd',
-  3: 'ees',
-  4: 'e',
-  5: 'f',
-  6: 'ges',
-  7: 'g',
-  8: 'aes',
-  9: 'a',
-  10: 'bes',
-  11: 'b'
-}
-
 const noteToDigit = {
   c: 0,
   des: 1,
@@ -177,9 +162,22 @@ const noteToDigit = {
 
 const convertNoteToDigit = (note) => noteToDigit[note.toLowerCase()]
 
-const convertDigitToNote = digit => digitToNote[digit]
+const digitToNote = {
+  0: 'c',
+  1: 'des',
+  2: 'd',
+  3: 'ees',
+  4: 'e',
+  5: 'f',
+  6: 'ges',
+  7: 'g',
+  8: 'aes',
+  9: 'a',
+  10: 'bes',
+  11: 'b'
+}
 
-const convertDigitToNoteSet = set => set.map(x => convertDigitToNote(x))
+const convertDigitToNoteSet = set => set.map(x => digitToNote[x])
 
 module.exports = {
   quantSet,
