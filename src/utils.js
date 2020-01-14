@@ -11,18 +11,17 @@ const playScale = (set, quant = 4) => quantSet(set, quant).join(' ')
 
 /* -- cellFold -- */
 const cellFold = (str, type) => {
-  if (type.toLowerCase() === 'rest' || type.toLowerCase() === 'r') {
-    str += ' r '
-    return str
-  } else if (type.toLowerCase() === 'fold') {
-    const newArr = str.split(' ')
-    newArr.push(newArr[newArr.length - 2])
-    const newStr = `${newArr.join(' ')} `
-    return newStr
-  } else if (type.toLowerCase() === 'turnup') {
-    let newStr = str
-    newStr += ` ${newStr.match(/[a-z]+/i)} `
-    return newStr
+  switch (type.toLowerCase()) {
+    case 'rest':
+    case 'r':
+      return `${str} r `
+    case 'fold': {
+      const arr = str.split(' ')
+      arr.push(arr[arr.length - 2])
+      return `${arr.join(' ')} `
+    }
+    case 'turnup':
+      return `${str} ${str.match(/[a-z]+/i)} `
   }
 }
 
