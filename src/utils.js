@@ -32,6 +32,40 @@ const cellFold = (str, type) => {
   }
 }
 
+const digitToNote = {
+  0: 'c',
+  1: 'des',
+  2: 'd',
+  3: 'ees',
+  4: 'e',
+  5: 'f',
+  6: 'ges',
+  7: 'g',
+  8: 'aes',
+  9: 'a',
+  10: 'bes',
+  11: 'b'
+}
+
+const convertDigitToNoteSet = set => set.map(x => digitToNote[x])
+
+const noteToDigit = {
+  c: 0,
+  des: 1,
+  d: 2,
+  ees: 3,
+  e: 4,
+  f: 5,
+  ges: 6,
+  g: 7,
+  aes: 8,
+  a: 9,
+  bes: 10,
+  b: 11
+}
+
+const convertNoteToDigit = (note) => noteToDigit[note]
+
 const humanToLy = {
   c: 'c',
   db: 'des',
@@ -47,7 +81,7 @@ const humanToLy = {
   b: 'b'
 }
 
-const convertHumanToLySyntax = note => humanToLy[note]
+const convertHumanToLySyntax = note => humanToLy[note.toLowerCase()]
 
 /* -- sequence -- */
 const sequence = (seq, type, quant, tail) => {
@@ -144,40 +178,6 @@ const printLilyPond = (music, time) => {
 const transpose = (x, transp) => (transp > 0) ? ((x + transp) > 11 ? (x + transp) - 12 : (x + transp)) : ((x + transp) < 0 ? (x + transp) + 12 : (x + transp))
 
 const transposeSet = (set, transp) => set.map(x => transpose(x, transp))
-
-const noteToDigit = {
-  c: 0,
-  des: 1,
-  d: 2,
-  ees: 3,
-  e: 4,
-  f: 5,
-  ges: 6,
-  g: 7,
-  aes: 8,
-  a: 9,
-  bes: 10,
-  b: 11
-}
-
-const convertNoteToDigit = (note) => noteToDigit[note.toLowerCase()]
-
-const digitToNote = {
-  0: 'c',
-  1: 'des',
-  2: 'd',
-  3: 'ees',
-  4: 'e',
-  5: 'f',
-  6: 'ges',
-  7: 'g',
-  8: 'aes',
-  9: 'a',
-  10: 'bes',
-  11: 'b'
-}
-
-const convertDigitToNoteSet = set => set.map(x => digitToNote[x])
 
 module.exports = {
   quantSet,
