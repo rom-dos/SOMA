@@ -7,16 +7,13 @@ String.prototype.regexIndexOf = function (regex, startpos) {
 }
 /* eslint-enable */
 
-/* -- quantSet -- */
 // 1 = whole note, 2 = 1/2 note, 4 = 1/4 note, 8 = 1/8 note
 // 16 = 1/16 note, 32 = 1/32 note, 64 = 1/64 note, 128 = 1/128 note
 // default quantization set to 1/4 notes
 const quantSet = (set, quant = 4) => [set.slice(0, 1)[0].concat(quant), ...set.slice(1)]
 
-/* -- playScale -- */
 const playScale = (set, quant = 4) => quantSet(set, quant).join(' ')
 
-/* -- cellFold -- */
 const cellFold = (str, type) => {
   switch (type.toLowerCase()) {
     case 'rest':
@@ -83,7 +80,6 @@ const humanToLy = {
 
 const convertHumanToLySyntax = note => humanToLy[note.toLowerCase()]
 
-/* -- sequence -- */
 const sequence = (seq, type, quant, tail) => {
   if (typeof seq === 'string') {
     seq = seq.split(' ')
@@ -114,7 +110,6 @@ const sequence = (seq, type, quant, tail) => {
   return data
 }
 
-/* -- randChordGen -- */
 const randChordGen = (arr, count, order) => {
   let finalChord = []
 
@@ -136,7 +131,6 @@ const randChordGen = (arr, count, order) => {
   }
 }
 
-/* -- formatterLy -- */
 const formatterLy = (set, type = 'default') => {
   let formattedSet
   if (typeof set === 'string') {
@@ -151,7 +145,6 @@ const formatterLy = (set, type = 'default') => {
   return formattedSet
 }
 
-/* -- printLilyPond -- */
 const printLilyPond = (music, time) => {
   const txt = `\\version "2.18.2"
   
