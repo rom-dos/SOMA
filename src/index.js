@@ -7,6 +7,8 @@ const harmonicSets = require('./harmonicSets')
 const { timeStamp } = require('@rom-dos/timestamp')
 const homedir = require('os').homedir()
 
+const { chord } = require('./programs/chord')
+
 const {
   playScale,
   cellFold,
@@ -114,6 +116,22 @@ program
     ) : (
       output(data)
     )
+  })
+
+/* chord
+ * <type> = type of scale
+ * <key> = key of scale
+ * <count> = number of notes per chord
+ * <order> = `sort` or `unsort`
+ * <num> = number of chords
+ * <mode> = `normal` or `log`
+ */
+program
+  .command('chord <type> <key>')
+  .alias('c')
+  .description('Generate specified chord.')
+  .action((type, key) => {
+    output(chord(type, key))
   })
 
 program.parse(process.argv)
