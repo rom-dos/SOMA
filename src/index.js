@@ -24,22 +24,24 @@ const {
 
 shell.mkdir('-p', `${homedir}/soma-output`)
 
-const output = (input) => {
+const output = input => {
   const time = timeStamp()
   const lilypond = '/Applications/LilyPond.app/Contents/Resources/bin/lilypond'
 
-  fs.writeFileSync(`${homedir}/soma-output/${time}.ly`, printLilyPond(input), err => {
-    if (err) throw err
-  })
+  fs.writeFileSync(
+    `${homedir}/soma-output/${time}.ly`,
+    printLilyPond(input),
+    err => {
+      if (err) throw err
+    }
+  )
 
   shell.exec(`${lilypond} ${homedir}/soma-output/${time}.ly`)
   shell.mv('*.pdf', '*.midi', `${homedir}/soma-output`)
   console.log('Success! Check the output directory')
 }
 
-program
-  .version('0.0.6')
-  .description('System Of Musical Architecture')
+program.version('0.0.6').description('System Of Musical Architecture')
 
 /* printScale
  * <type> = type of scale
@@ -54,7 +56,20 @@ program
   .description('Print scale(s)')
   .action((type, key, quant, tail, mode) => {
     if (key.toLowerCase() === 'all') {
-      const seq = ['c', 'db', 'd', 'eb', 'e', 'f', 'gb', 'g', 'ab', 'a', 'bb', 'b']
+      const seq = [
+        'c',
+        'db',
+        'd',
+        'eb',
+        'e',
+        'f',
+        'gb',
+        'g',
+        'ab',
+        'a',
+        'bb',
+        'b'
+      ]
       const data = sequence(seq, type, quant, tail)
       mode === 'log' ? console.log(data) : output(data)
     } else if (key.length > 2) {
@@ -95,36 +110,36 @@ program
     let i = 0
     let data = ''
     while (i < num) {
-      data += (
-        formatterLy(
-          randChordGen(
-            convertDigitToNoteSet(
-              transposeSet(harmonicSets[type], convertNoteToDigit(convertHumanToLySyntax(key)))
-            ),
-            count,
-            order
+      data += formatterLy(
+        randChordGen(
+          convertDigitToNoteSet(
+            transposeSet(
+              harmonicSets[type],
+              convertNoteToDigit(convertHumanToLySyntax(key))
+            )
           ),
-          'chord'
-        )
+          count,
+          order
+        ),
+        'chord'
       )
       data += '1 '
       i++
     }
 
-    mode === 'log' ? (
-      console.table(data.split('1 ').map(x => x.concat(1)).slice(0, -1))
-    ) : (
-      output(data)
-    )
+    mode === 'log'
+      ? console.table(
+          data
+            .split('1 ')
+            .map(x => x.concat(1))
+            .slice(0, -1)
+        )
+      : output(data)
   })
 
 /* chord
  * <type> = type of scale
  * <key> = key of scale
- * <count> = number of notes per chord
- * <order> = `sort` or `unsort`
- * <num> = number of chords
- * <mode> = `normal` or `log`
  */
 program
   .command('chord <type> <key>')
