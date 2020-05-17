@@ -6,6 +6,7 @@ const fs = require('fs')
 const harmonicSets = require('./harmonicSets')
 const { timeStamp } = require('@rom-dos/timestamp')
 const homedir = require('os').homedir()
+const terminalImage = require('terminal-image')
 
 const { chord } = require('./programs/chord')
 
@@ -27,6 +28,7 @@ shell.mkdir('-p', `${homedir}/soma-output`)
 const output = input => {
   const time = timeStamp()
   const lilypond = '/Applications/LilyPond.app/Contents/Resources/bin/lilypond'
+  const outputDir = `${homedir}/soma-output`
 
   fs.writeFileSync(
     `${homedir}/soma-output/${time}.ly`,
@@ -36,9 +38,20 @@ const output = input => {
     }
   )
 
-  shell.exec(`${lilypond} ${homedir}/soma-output/${time}.ly`)
-  shell.mv('*.pdf', '*.midi', `${homedir}/soma-output`)
-  console.log('Success! Check the output directory')
+  shell.exec(`${lilypond} -fpng -fpdf ${outputDir}/${time}.ly`)
+  shell.mv('*.pdf', '*.midi', '*.png', `${outputDir}/`)
+
+  // return time
+  shell.exec(
+    `magick convert ${outputDir}/${time}.png -channel RGB -negate ${outputDir}/${time}-white.png`
+  )
+  ;(async () => {
+    console.log(
+      await terminalImage.file(`${outputDir}/${time}-white.png`, {
+        width: '12%'
+      })
+    )
+  })()
 }
 
 program.version('0.0.6').description('System Of Musical Architecture')
@@ -145,7 +158,18 @@ program
   .command('chord <type> <key>')
   .alias('c')
   .description('Generate specified chord.')
-  .action((type, key) => {
+  .action(async (type, key) => {
+    // const time = await output(chord(type, key))
+    // const display = async () => {
+    //   console.log(
+    //     await terminalImage.file(`${homedir}/png.png`, {
+    //       width: '100%'
+    //     })
+    //   )
+    // }
+
+    // display()
+
     output(chord(type, key))
   })
 

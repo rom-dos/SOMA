@@ -39,7 +39,8 @@
   "dependencies": {
     "@rom-dos/timestamp": "^1.0.0",
     "commander": "^2.20.3",
-    "shelljs": "^0.8.3"
+    "shelljs": "^0.8.3",
+    "terminal-image": "^1.0.1"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"

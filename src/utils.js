@@ -3,14 +3,17 @@ const harmonicSets = require('./harmonicSets')
 /* eslint-disable */
 String.prototype.regexIndexOf = function (regex, startpos) {
   let indexOf = this.substring(startpos || 0).search(regex)
-  return (indexOf >= 0) ? (indexOf + (startpos || 0)) : indexOf
+  return indexOf >= 0 ? indexOf + (startpos || 0) : indexOf
 }
 /* eslint-enable */
 
 // 1 = whole note, 2 = 1/2 note, 4 = 1/4 note, 8 = 1/8 note
 // 16 = 1/16 note, 32 = 1/32 note, 64 = 1/64 note, 128 = 1/128 note
 // default quantization set to 1/4 notes
-const quantSet = (set, quant = 4) => [set.slice(0, 1)[0].concat(quant), ...set.slice(1)]
+const quantSet = (set, quant = 4) => [
+  set.slice(0, 1)[0].concat(quant),
+  ...set.slice(1)
+]
 
 const playScale = (set, quant = 4) => quantSet(set, quant).join(' ')
 
@@ -61,7 +64,7 @@ const noteToDigit = {
   b: 11
 }
 
-const convertNoteToDigit = (note) => noteToDigit[note]
+const convertNoteToDigit = note => noteToDigit[note]
 
 const humanToLy = {
   c: 'c',
@@ -86,13 +89,19 @@ const sequence = (seq, type, quant, tail) => {
   }
 
   let data = ''
-  data += cellFold(playScale(convertDigitToNoteSet(harmonicSets[type]), quant), tail)
+  data += cellFold(
+    playScale(convertDigitToNoteSet(harmonicSets[type]), quant),
+    tail
+  )
 
   seq.slice(1).forEach(x => {
     let newLine = cellFold(
       playScale(
         convertDigitToNoteSet(
-          transposeSet(harmonicSets[type], convertNoteToDigit(convertHumanToLySyntax(x)))
+          transposeSet(
+            harmonicSets[type],
+            convertNoteToDigit(convertHumanToLySyntax(x))
+          )
         ),
         quant
       ),
@@ -102,7 +111,8 @@ const sequence = (seq, type, quant, tail) => {
     newLine = newLine.split(' ')
     const firstNote = newLine[0]
     const splicePoint = firstNote.regexIndexOf(/[0-9]/, 0)
-    newLine[0] = firstNote.slice(0, splicePoint) + ',' + firstNote.slice(splicePoint)
+    newLine[0] =
+      firstNote.slice(0, splicePoint) + ',' + firstNote.slice(splicePoint)
     newLine = newLine.join(' ')
     data += newLine
   })
@@ -113,7 +123,7 @@ const sequence = (seq, type, quant, tail) => {
 const randChordGen = (arr, count, order) => {
   let finalChord = []
 
-  const randNote = (arr) => {
+  const randNote = arr => {
     return arr[Math.floor(Math.random() * arr.length)]
   }
 
@@ -157,18 +167,28 @@ const printLilyPond = (music, time) => {
   }
 
   \\score {
-    \\new PianoStaff \\with { instrumentName = #"Piano" }
+    \\new PianoStaff
     <<
       \\new Staff = "upper" \\upper
     >>
     \\layout { }
     \\midi { }
+    \\include "lilypond-book-preamble.ly"
+    \\paper { oddFooterMarkup = ##f }
   }
+
 `
   return txt
 }
 
-const transpose = (x, transp) => (transp > 0) ? ((x + transp) > 11 ? (x + transp) - 12 : (x + transp)) : ((x + transp) < 0 ? (x + transp) + 12 : (x + transp))
+const transpose = (x, transp) =>
+  transp > 0
+    ? x + transp > 11
+      ? x + transp - 12
+      : x + transp
+    : x + transp < 0
+    ? x + transp + 12
+    : x + transp
 
 const transposeSet = (set, transp) => set.map(x => transpose(x, transp))
 
