@@ -22,7 +22,8 @@ const {
   convertDigitToNoteSet,
   convertNoteToDigit,
   convertHumanToLySyntax,
-  writeScore
+  writeScore,
+  readScore
 } = require('./utils.js')
 
 shell.mkdir('-p', `${homedir}/soma-output`)
@@ -53,7 +54,7 @@ const output = input => {
   ;(async () => {
     console.log(
       await terminalImage.file(`${outputDir}/${time}-white.png`, {
-        width: '35%'
+        width: '88%'
       })
     )
   })()
@@ -186,6 +187,23 @@ program
   .option('-n, --name <score-name>', 'Add custom name to scor.e', '')
   .action(options => {
     createScore(options.name)
+  })
+
+/* output (score)
+ * -n, --name <score-name>
+ *
+ */
+program
+  .command('score')
+  .alias('output')
+  .description('Output score to console.')
+  .action(options => {
+    const read = readScore()
+    if (read.one) {
+      output(read.one.join(' '))
+    } else {
+      console.log('No score to output')
+    }
   })
 
 program.parse(process.argv)

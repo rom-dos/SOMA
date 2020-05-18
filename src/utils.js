@@ -273,5 +273,6 @@ module.exports = {
   convertMovementToOctave,
   insertOctave,
   triad,
-  writeScore
+  writeScore,
+  readScore
 }
