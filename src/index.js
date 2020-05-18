@@ -206,4 +206,23 @@ program
     }
   })
 
+/* pop
+ * Remove last measure from score and place in cache.
+ *
+ */
+program
+  .command('pop')
+  .description('Remove last measure from score and place in cache.')
+  .action(() => {
+    const read = readScore()
+    if (read.one) {
+      writeScore(read.one.slice(0, read.one.length - 1), true)
+      console.log('Last measure removed.')
+      // const readPost = readScore()
+      // output(readPost)
+    } else {
+      console.log('No score to output')
+    }
+  })
+
 program.parse(process.argv)

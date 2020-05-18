@@ -224,13 +224,17 @@ const createScore = (name = '') => {
   }
 }
 
-const writeScore = input => {
+const writeScore = (input, replace = false) => {
   try {
     let output
     const read = readScore()
     // console.log(read)
     if (read['one']) {
-      output = [...read['one'], input]
+      if (replace) {
+        output = input
+      } else {
+        output = [...read['one'], input]
+      }
     } else {
       output = [input]
     }
