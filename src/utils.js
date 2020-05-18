@@ -174,9 +174,8 @@ const printLilyPond = (music, time) => {
     \\layout { }
     \\midi { }
     \\include "lilypond-book-preamble.ly"
-    \\paper { oddFooterMarkup = ##f }
   }
-
+  \\paper { oddFooterMarkup = ##f }
 `
   return txt
 }
@@ -192,6 +191,22 @@ const transpose = (x, transp) =>
 
 const transposeSet = (set, transp) => set.map(x => transpose(x, transp))
 
+const triad = set => [set[0], set[2], set[4]]
+
+const convertMovementToOctave = movement => {
+  if (!movement.length) {
+    return ''
+  } else if (movement.length !== 2) {
+    throw Error`Octave movement is formatted incorrectly.`
+  } else {
+    return movement[1].toLowerCase() === 'd'
+      ? ','.repeat(movement[0])
+      : "'".repeat(movement[0])
+  }
+}
+
+const insertOctave = (set, octave) => [set[0] + octave, ...set.slice(1)]
+
 module.exports = {
   quantSet,
   playScale,
@@ -203,5 +218,8 @@ module.exports = {
   convertDigitToNoteSet,
   convertNoteToDigit,
   transposeSet,
-  convertHumanToLySyntax
+  convertHumanToLySyntax,
+  convertMovementToOctave,
+  insertOctave,
+  triad
 }

@@ -1,15 +1,16 @@
 const harmonicSets = require('../harmonicSets')
 const {
+  triad,
   formatterLy,
   transposeSet,
   convertDigitToNoteSet,
   convertNoteToDigit,
-  convertHumanToLySyntax
+  convertHumanToLySyntax,
+  convertMovementToOctave,
+  insertOctave
 } = require('../utils')
 
-const triad = set => [set[0], set[2], set[4]]
-
-const chord = (key, type) => {
+const chord = (key, type, octave) => {
   let scaleType = ''
   let data
 
@@ -17,13 +18,16 @@ const chord = (key, type) => {
     case 'maj-triad':
       scaleType = 'ionian'
       data = `<${formatterLy(
-        convertDigitToNoteSet(
-          triad(
-            transposeSet(
-              harmonicSets[scaleType],
-              convertNoteToDigit(convertHumanToLySyntax(key))
+        insertOctave(
+          convertDigitToNoteSet(
+            triad(
+              transposeSet(
+                harmonicSets[scaleType],
+                convertNoteToDigit(convertHumanToLySyntax(key))
+              )
             )
-          )
+          ),
+          convertMovementToOctave(octave)
         )
       )}>1`
       break

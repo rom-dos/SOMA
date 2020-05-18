@@ -48,7 +48,7 @@ const output = input => {
   ;(async () => {
     console.log(
       await terminalImage.file(`${outputDir}/${time}-white.png`, {
-        width: '30%'
+        width: '35%'
       })
     )
   })()
@@ -158,18 +158,10 @@ program
   .command('chord <key> <type>')
   .alias('ch')
   .description('Generate specified chord.')
-  .action(async (key, type) => {
-    // const time = await output(chord(type, key))
-    // const display = async () => {
-    //   console.log(
-    //     await terminalImage.file(`${homedir}/png.png`, {
-    //       width: '100%'
-    //     })
-    //   )
-    // }
-
-    // display()
-    output(chord(key, type))
+  .option('-o, --octave <oct>', 'Shift the octave', '')
+  .action((key, type, options) => {
+    // console.log(options.octave)
+    output(chord(key, type, options.octave))
   })
 
 program.parse(process.argv)
