@@ -210,7 +210,7 @@ const convertMovementToOctave = movement => {
 
 const insertOctave = (set, octave) => [set[0] + octave, ...set.slice(1)]
 
-const createStore = (name = '') => {
+const createScore = (name = '') => {
   try {
     if (name) {
       fs.writeFileSync(`${cache}/${name}.json`, '{}', 'utf8')
@@ -224,8 +224,41 @@ const createStore = (name = '') => {
   }
 }
 
+const writeScore = input => {
+  try {
+    let output
+    const read = readScore()
+    // console.log(read)
+    if (read['one']) {
+      output = [...read['one'], input]
+    } else {
+      output = [input]
+    }
+    fs.writeFileSync(
+      `${cache}/score.json`,
+      JSON.stringify({ one: output }),
+      'utf8'
+    )
+    const readPost = readScore()
+    console.log(readPost)
+    // console.log(output)
+    // console.log(read)
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+const readScore = () => {
+  try {
+    const data = fs.readFileSync(`${cache}/score.json`, 'utf8')
+    return JSON.parse(data)
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 module.exports = {
-  createStore,
+  createScore,
   quantSet,
   playScale,
   cellFold,
@@ -239,5 +272,6 @@ module.exports = {
   convertHumanToLySyntax,
   convertMovementToOctave,
   insertOctave,
-  triad
+  triad,
+  writeScore
 }

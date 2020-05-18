@@ -11,7 +11,7 @@ const terminalImage = require('terminal-image')
 const { chord } = require('./programs/chord')
 
 const {
-  createStore,
+  createScore,
   playScale,
   cellFold,
   sequence,
@@ -21,7 +21,8 @@ const {
   transposeSet,
   convertDigitToNoteSet,
   convertNoteToDigit,
-  convertHumanToLySyntax
+  convertHumanToLySyntax,
+  writeScore
 } = require('./utils.js')
 
 shell.mkdir('-p', `${homedir}/soma-output`)
@@ -163,9 +164,15 @@ program
   .alias('ch')
   .description('Generate specified chord.')
   .option('-o, --octave <oct>', 'Shift the octave.', '')
+  .option('-a, --add', 'Add chord to score.')
   .action((key, type, options) => {
     // console.log(options.octave)
-    output(chord(key, type, options.octave))
+    if (options.add) {
+      writeScore(chord(key, type, options.octave))
+      // console.log(chord(key, type, options.octave))
+    } else {
+      output(chord(key, type, options.octave))
+    }
   })
 
 /* create (score)
@@ -178,15 +185,7 @@ program
   .description('Create new score in .json format.')
   .option('-n, --name <score-name>', 'Add custom name to scor.e', '')
   .action(options => {
-    createStore(options.name)
+    createScore(options.name)
   })
-
-const writeStore = input => {
-  try {
-    fs.writeFileSync(`${sandDir}/store.json`, JSON.stringify(input), 'utf8')
-  } catch (err) {
-    console.error(err)
-  }
-}
 
 program.parse(process.argv)
