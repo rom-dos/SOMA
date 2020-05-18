@@ -48,7 +48,7 @@ const output = input => {
   ;(async () => {
     console.log(
       await terminalImage.file(`${outputDir}/${time}-white.png`, {
-        width: '12%'
+        width: '30%'
       })
     )
   })()
@@ -155,10 +155,10 @@ program
  * <key> = key of scale
  */
 program
-  .command('chord <type> <key>')
-  .alias('c')
+  .command('chord <key> <type>')
+  .alias('ch')
   .description('Generate specified chord.')
-  .action(async (type, key) => {
+  .action(async (key, type) => {
     // const time = await output(chord(type, key))
     // const display = async () => {
     //   console.log(
@@ -169,8 +169,7 @@ program
     // }
 
     // display()
-
-    output(chord(type, key))
+    output(chord(key, type))
   })
 
 program.parse(process.argv)

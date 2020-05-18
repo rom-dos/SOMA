@@ -1,9 +1,15 @@
 const harmonicSets = require('../harmonicSets')
-const { formatterLy, transposeSet, convertDigitToNoteSet, convertNoteToDigit, convertHumanToLySyntax } = require('../utils')
+const {
+  formatterLy,
+  transposeSet,
+  convertDigitToNoteSet,
+  convertNoteToDigit,
+  convertHumanToLySyntax
+} = require('../utils')
 
-const triad = (set) => [set[0], set[2], set[4]]
+const triad = set => [set[0], set[2], set[4]]
 
-const chord = (type, key) => {
+const chord = (key, type) => {
   let scaleType = ''
   let data
 
@@ -14,7 +20,8 @@ const chord = (type, key) => {
         convertDigitToNoteSet(
           triad(
             transposeSet(
-              harmonicSets[scaleType], convertNoteToDigit(convertHumanToLySyntax(key))
+              harmonicSets[scaleType],
+              convertNoteToDigit(convertHumanToLySyntax(key))
             )
           )
         )
@@ -26,7 +33,8 @@ const chord = (type, key) => {
         convertDigitToNoteSet(
           triad(
             transposeSet(
-              harmonicSets[scaleType], convertNoteToDigit(convertHumanToLySyntax(key))
+              harmonicSets[scaleType],
+              convertNoteToDigit(convertHumanToLySyntax(key))
             )
           )
         )
