@@ -96,6 +96,22 @@ const chord = (key, type, octave) => {
         )
       )}>1`
       break
+    case 'half-dim':
+      scaleType = 'locrian'
+      data = `<${formatterLy(
+        insertOctave(
+          convertDigitToNoteSet(
+            seventhChord(
+              transposeSet(
+                harmonicSets[scaleType],
+                convertNoteToDigit(convertHumanToLySyntax(key))
+              )
+            )
+          ),
+          convertMovementToOctave(octave)
+        )
+      )}>1`
+      break
     default:
       break
   }
