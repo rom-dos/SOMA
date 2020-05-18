@@ -7,7 +7,8 @@ const {
   convertNoteToDigit,
   convertHumanToLySyntax,
   convertMovementToOctave,
-  insertOctave
+  insertOctave,
+  seventhChord
 } = require('../utils')
 
 const chord = (key, type, octave) => {
@@ -37,6 +38,22 @@ const chord = (key, type, octave) => {
         insertOctave(
           convertDigitToNoteSet(
             triad(
+              transposeSet(
+                harmonicSets[scaleType],
+                convertNoteToDigit(convertHumanToLySyntax(key))
+              )
+            )
+          ),
+          convertMovementToOctave(octave)
+        )
+      )}>1`
+      break
+    case 'maj-seventh':
+      scaleType = 'ionian'
+      data = `<${formatterLy(
+        insertOctave(
+          convertDigitToNoteSet(
+            seventhChord(
               transposeSet(
                 harmonicSets[scaleType],
                 convertNoteToDigit(convertHumanToLySyntax(key))

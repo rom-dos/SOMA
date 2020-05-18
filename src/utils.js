@@ -196,6 +196,8 @@ const transposeSet = (set, transp) => set.map(x => transpose(x, transp))
 
 const triad = set => [set[0], set[2], set[4]]
 
+const seventhChord = set => [set[0], set[2], set[4], set[6]]
+
 const convertMovementToOctave = movement => {
   if (!movement.length) {
     return ''
@@ -278,5 +280,6 @@ module.exports = {
   insertOctave,
   triad,
   writeScore,
-  readScore
+  readScore,
+  seventhChord
 }
