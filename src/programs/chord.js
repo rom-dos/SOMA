@@ -64,6 +64,22 @@ const chord = (key, type, octave) => {
         )
       )}>1`
       break
+    case 'min-seventh':
+      scaleType = 'dorian'
+      data = `<${formatterLy(
+        insertOctave(
+          convertDigitToNoteSet(
+            seventhChord(
+              transposeSet(
+                harmonicSets[scaleType],
+                convertNoteToDigit(convertHumanToLySyntax(key))
+              )
+            )
+          ),
+          convertMovementToOctave(octave)
+        )
+      )}>1`
+      break
     default:
       break
   }
