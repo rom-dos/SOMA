@@ -80,6 +80,22 @@ const chord = (key, type, octave) => {
         )
       )}>1`
       break
+    case 'dom-seventh':
+      scaleType = 'mixolydian'
+      data = `<${formatterLy(
+        insertOctave(
+          convertDigitToNoteSet(
+            seventhChord(
+              transposeSet(
+                harmonicSets[scaleType],
+                convertNoteToDigit(convertHumanToLySyntax(key))
+              )
+            )
+          ),
+          convertMovementToOctave(octave)
+        )
+      )}>1`
+      break
     default:
       break
   }
