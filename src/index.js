@@ -176,15 +176,15 @@ program
     }
   })
 
-/* create (score)
+/* init (score)
  * -n, --name <score-name>
  *
  */
 program
-  .command('new')
-  .alias('create')
+  .command('init')
+  .alias('new')
   .description('Create new score in .json format.')
-  .option('-n, --name <score-name>', 'Add custom name to scor.e', '')
+  .option('-n, --name <score-name>', 'Add custom name to score.', '')
   .action(options => {
     createScore(options.name)
   })
