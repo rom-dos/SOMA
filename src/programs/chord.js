@@ -34,13 +34,16 @@ const chord = (key, type, octave) => {
     case 'min-triad':
       scaleType = 'dorian'
       data = `<${formatterLy(
-        convertDigitToNoteSet(
-          triad(
-            transposeSet(
-              harmonicSets[scaleType],
-              convertNoteToDigit(convertHumanToLySyntax(key))
+        insertOctave(
+          convertDigitToNoteSet(
+            triad(
+              transposeSet(
+                harmonicSets[scaleType],
+                convertNoteToDigit(convertHumanToLySyntax(key))
+              )
             )
-          )
+          ),
+          convertMovementToOctave(octave)
         )
       )}>1`
       break
