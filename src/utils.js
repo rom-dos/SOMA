@@ -1,4 +1,7 @@
+const fs = require('fs')
 const harmonicSets = require('./harmonicSets')
+const homedir = require('os').homedir()
+const cache = `${homedir}/.cache/soma`
 
 /* eslint-disable */
 String.prototype.regexIndexOf = function (regex, startpos) {
@@ -207,7 +210,22 @@ const convertMovementToOctave = movement => {
 
 const insertOctave = (set, octave) => [set[0] + octave, ...set.slice(1)]
 
+const createStore = (name = '') => {
+  try {
+    if (name) {
+      fs.writeFileSync(`${cache}/${name}.json`, '{}', 'utf8')
+      console.log(`New Score ${name} Created.`)
+    } else {
+      fs.writeFileSync(`${cache}/score.json`, '{}', 'utf8')
+      console.log('New Score Created.')
+    }
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 module.exports = {
+  createStore,
   quantSet,
   playScale,
   cellFold,
