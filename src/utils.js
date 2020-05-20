@@ -198,6 +198,8 @@ const triad = set => [set[0], set[2], set[4]]
 
 const seventhChord = set => [set[0], set[2], set[4], set[6]]
 
+const dimSeventhChord = set => [set[6], set[1], set[3], set[5]]
+
 const convertMovementToOctave = movement => {
   if (!movement.length) {
     return ''
@@ -268,6 +270,7 @@ module.exports = {
   quantSet,
   playScale,
   cellFold,
+  dimSeventhChord,
   sequence,
   randChordGen,
   formatterLy,

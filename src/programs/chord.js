@@ -1,6 +1,7 @@
 const harmonicSets = require('../harmonicSets')
 const {
   triad,
+  dimSeventhChord,
   formatterLy,
   transposeSet,
   convertDigitToNoteSet,
@@ -18,102 +19,71 @@ const chord = (key, type, octave) => {
   switch (type) {
     case 'maj-triad':
       scaleType = 'ionian'
-      data = `<${formatterLy(
-        insertOctave(
-          convertDigitToNoteSet(
-            triad(
-              transposeSet(
-                harmonicSets[scaleType],
-                convertNoteToDigit(convertHumanToLySyntax(key))
-              )
-            )
-          ),
-          convertMovementToOctave(octave)
-        )
-      )}>1`
       break
     case 'min-triad':
       scaleType = 'dorian'
-      data = `<${formatterLy(
-        insertOctave(
-          convertDigitToNoteSet(
-            triad(
-              transposeSet(
-                harmonicSets[scaleType],
-                convertNoteToDigit(convertHumanToLySyntax(key))
-              )
-            )
-          ),
-          convertMovementToOctave(octave)
-        )
-      )}>1`
       break
     case 'maj-seventh':
       scaleType = 'ionian'
-      data = `<${formatterLy(
-        insertOctave(
-          convertDigitToNoteSet(
-            seventhChord(
-              transposeSet(
-                harmonicSets[scaleType],
-                convertNoteToDigit(convertHumanToLySyntax(key))
-              )
-            )
-          ),
-          convertMovementToOctave(octave)
-        )
-      )}>1`
       break
     case 'min-seventh':
       scaleType = 'dorian'
-      data = `<${formatterLy(
-        insertOctave(
-          convertDigitToNoteSet(
-            seventhChord(
-              transposeSet(
-                harmonicSets[scaleType],
-                convertNoteToDigit(convertHumanToLySyntax(key))
-              )
-            )
-          ),
-          convertMovementToOctave(octave)
-        )
-      )}>1`
       break
     case 'dom-seventh':
       scaleType = 'mixolydian'
-      data = `<${formatterLy(
-        insertOctave(
-          convertDigitToNoteSet(
-            seventhChord(
-              transposeSet(
-                harmonicSets[scaleType],
-                convertNoteToDigit(convertHumanToLySyntax(key))
-              )
-            )
-          ),
-          convertMovementToOctave(octave)
-        )
-      )}>1`
       break
     case 'half-dim':
       scaleType = 'locrian'
-      data = `<${formatterLy(
-        insertOctave(
-          convertDigitToNoteSet(
-            seventhChord(
-              transposeSet(
-                harmonicSets[scaleType],
-                convertNoteToDigit(convertHumanToLySyntax(key))
-              )
-            )
-          ),
-          convertMovementToOctave(octave)
-        )
-      )}>1`
+      break
+    case 'dim-seventh':
+      scaleType = 'harmonicMinor'
       break
     default:
       break
+  }
+
+  if (type === 'maj-triad' || type === 'min-triad') {
+    data = `<${formatterLy(
+      insertOctave(
+        convertDigitToNoteSet(
+          triad(
+            transposeSet(
+              harmonicSets[scaleType],
+              convertNoteToDigit(convertHumanToLySyntax(key))
+            )
+          )
+        ),
+        convertMovementToOctave(octave)
+      )
+    )}>1`
+  } else if (type === 'dim-seventh') {
+    data = `<${formatterLy(
+      insertOctave(
+        convertDigitToNoteSet(
+          dimSeventhChord(
+            transposeSet(
+              harmonicSets[scaleType],
+              convertNoteToDigit(convertHumanToLySyntax(key)) + 1
+            )
+          )
+        ),
+        convertMovementToOctave(octave)
+      )
+    )}>1`
+  } else {
+    data = `<${formatterLy(
+      insertOctave(
+        convertDigitToNoteSet(
+          seventhChord(
+            transposeSet(
+              harmonicSets[scaleType],
+              convertNoteToDigit(convertHumanToLySyntax(key))
+            )
+          )
+        ),
+        convertMovementToOctave(octave)
+      )
+    )}>1`
   }
 
   return data
