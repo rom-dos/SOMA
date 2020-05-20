@@ -200,6 +200,14 @@ const seventhChord = set => [set[0], set[2], set[4], set[6]]
 
 const dimSeventhChord = set => [set[6], set[1], set[3], set[5]]
 
+const inversion = (set, inv) => {
+  if (Number(inv) === 0) {
+    return set
+  } else {
+    return [...set.slice(Number(inv)), ...set.slice(0, Number(inv))]
+  }
+}
+
 const convertMovementToOctave = movement => {
   if (!movement.length) {
     return ''
@@ -265,7 +273,26 @@ const readScore = () => {
   }
 }
 
+const chordLength = type => {
+  switch (type) {
+    case 'maj-triad':
+    case 'min-triad':
+      return 3
+      break
+    case 'maj-seventh':
+    case 'min-seventh':
+    case 'dom-seventh':
+    case 'half-dim':
+    case 'dim-seventh':
+      return 4
+      break
+    default:
+      break
+  }
+}
+
 module.exports = {
+  chordLength,
   createScore,
   quantSet,
   playScale,
@@ -274,6 +301,7 @@ module.exports = {
   sequence,
   randChordGen,
   formatterLy,
+  inversion,
   printLilyPond,
   convertDigitToNoteSet,
   convertNoteToDigit,

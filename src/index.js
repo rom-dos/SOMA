@@ -11,6 +11,7 @@ const terminalImage = require('terminal-image')
 const { chord } = require('./programs/chord')
 
 const {
+  chordLength,
   createScore,
   playScale,
   cellFold,
@@ -54,7 +55,8 @@ const output = input => {
   ;(async () => {
     console.log(
       await terminalImage.file(`${outputDir}/${time}-white.png`, {
-        width: '88%'
+        width: '88%',
+        height: '16%'
       })
     )
   })()
@@ -165,14 +167,26 @@ program
   .alias('ch')
   .description('Generate specified chord.')
   .option('-o, --octave <oct>', 'Shift the octave.', '')
+  .option('-i --inversion <inv>', 'Invert chord.', '0')
   .option('-a, --add', 'Add chord to score.')
   .action((key, type, options) => {
-    // console.log(options.octave)
+    if (options.inversion) {
+      if (Number(options.inversion) > chordLength(type) - 1) {
+        console.log(
+          `${
+            options.inversion
+          } is greater than the amount of inversions possible for this chord, ${chordLength(
+            type
+          ) - 1}.`
+        )
+        return false
+      }
+    }
     if (options.add) {
-      writeScore(chord(key, type, options.octave))
+      writeScore(chord(key, type, options.octave, options.inversion))
       // console.log(chord(key, type, options.octave))
     } else {
-      output(chord(key, type, options.octave))
+      output(chord(key, type, options.octave, options.inversion))
     }
   })
 
