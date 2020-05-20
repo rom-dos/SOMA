@@ -197,10 +197,13 @@ program
   .command('score')
   .alias('output')
   .description('Output score to console.')
+  .option('-l, --length', 'Display score length (in measures).')
   .action(options => {
     const read = readScore()
     if (read.one) {
-      output(read.one.join(' '))
+      options.length
+        ? console.log(`Score Duration: ${read.one.length} measures.`)
+        : output(read.one.join(' '))
     } else {
       console.log('No score to output')
     }
