@@ -240,7 +240,6 @@ const writeScore = (input, replace = false) => {
   try {
     let output
     const read = readScore()
-    // console.log(read)
     if (read['one']) {
       if (replace) {
         output = input
@@ -257,8 +256,6 @@ const writeScore = (input, replace = false) => {
     )
     const readPost = readScore()
     console.log(readPost)
-    // console.log(output)
-    // console.log(read)
   } catch (err) {
     console.error(err)
   }

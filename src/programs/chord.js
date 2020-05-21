@@ -19,14 +19,10 @@ const chord = (key, type, octave, inv) => {
 
   switch (type) {
     case 'maj-triad':
-      scaleType = 'ionian'
-      break
-    case 'min-triad':
-      scaleType = 'dorian'
-      break
     case 'maj-seventh':
       scaleType = 'ionian'
       break
+    case 'min-triad':
     case 'min-seventh':
       scaleType = 'dorian'
       break
