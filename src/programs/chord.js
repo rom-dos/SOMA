@@ -60,11 +60,14 @@ const chord = (key, type, octave, inv) => {
     data = `<${formatterLy(
       insertOctave(
         convertDigitToNoteSet(
-          dimSeventhChord(
-            transposeSet(
-              harmonicSets[scaleType],
-              convertNoteToDigit(convertHumanToLySyntax(key)) + 1
-            )
+          inversion(
+            dimSeventhChord(
+              transposeSet(
+                harmonicSets[scaleType],
+                convertNoteToDigit(convertHumanToLySyntax(key)) + 1
+              )
+            ),
+            inv
           )
         ),
         convertMovementToOctave(octave)
