@@ -8,8 +8,6 @@ const { timeStamp } = require('@rom-dos/timestamp')
 const homedir = require('os').homedir()
 const terminalImage = require('terminal-image')
 
-const { chord } = require('./programs/chord')
-
 const {
   chordLength,
   createScore,
@@ -26,6 +24,7 @@ const {
   writeScore,
   readScore
 } = require('./utils.js')
+const { chordTypes } = require('./chordTypes.js')
 
 shell.mkdir('-p', `${homedir}/soma-output`)
 shell.mkdir('-p', `${homedir}/.cache/soma`)
@@ -242,6 +241,24 @@ program
       // output(readPost)
     } else {
       console.log('No score to output')
+    }
+  })
+
+/* ls
+ * List various information about the score
+ *
+ */
+program
+  .command('ls')
+  .alias('list')
+  .description('List various information.')
+  .option('--chords', 'Display list of available chords.')
+  .action(options => {
+    if (options.chords) {
+      console.log('')
+      console.log('Available chords:')
+      console.log('')
+      chordTypes.map(x => console.log(x.name))
     }
   })
 
