@@ -1,14 +1,13 @@
 #!/usr/bin/env node
 
-const program = require('commander')
-const shell = require('shelljs')
-const fs = require('fs')
-const harmonicSets = require('./harmonicSets')
-const { timeStamp } = require('@rom-dos/timestamp')
-const homedir = require('os').homedir()
-const terminalImage = require('terminal-image')
+import program from 'commander'
+import shell from 'shelljs'
+import fs from 'fs'
+import { harmonicSets } from './harmonicSets.js'
+import { homedir } from 'os'
+import terminalImage from 'terminal-image'
 
-const {
+import {
   chordLength,
   createScore,
   playScale,
@@ -22,16 +21,15 @@ const {
   convertNoteToDigit,
   convertHumanToLySyntax,
   writeScore,
-  readScore
-} = require('./utils.js')
-const { chord } = require('./programs/chord.js')
-const { chordTypes } = require('./chordTypes.js')
-const { scaleTypes } = require('./scaleTypes.js')
+  readScore,
+  timeStamp
+} from './utils.js'
+
+import { chord } from './programs/chord.js'
+import { ls } from './programs/ls.js'
 
 shell.mkdir('-p', `${homedir}/soma-output`)
 shell.mkdir('-p', `${homedir}/.cache/soma`)
-
-const cache = `${homedir}/.cache/soma`
 
 const output = input => {
   const time = timeStamp()
@@ -277,18 +275,7 @@ program
   .option('--chords', 'Display list of available chords.')
   .option('--scales', 'Display list of available scales.')
   .action(options => {
-    if (options.chords) {
-      console.log('')
-      console.log('Available chords:')
-      console.log('')
-      chordTypes.map(x => console.log(x.name))
-    }
-    if (options.scales) {
-      console.log('')
-      console.log('Available scales:')
-      console.log('')
-      scaleTypes.map(x => console.log(x.name))
-    }
+    ls(options)
   })
 
 program.parse(process.argv)

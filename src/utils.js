@@ -1,6 +1,6 @@
-const fs = require('fs')
-const harmonicSets = require('./harmonicSets')
-const homedir = require('os').homedir()
+import fs from 'fs'
+import { harmonicSets } from './harmonicSets.js'
+import homedir from 'os'
 const cache = `${homedir}/.cache/soma`
 
 /* eslint-disable */
@@ -13,14 +13,14 @@ String.prototype.regexIndexOf = function (regex, startpos) {
 // 1 = whole note, 2 = 1/2 note, 4 = 1/4 note, 8 = 1/8 note
 // 16 = 1/16 note, 32 = 1/32 note, 64 = 1/64 note, 128 = 1/128 note
 // default quantization set to 1/4 notes
-const quantSet = (set, quant = 4) => [
+export const quantSet = (set, quant = 4) => [
   set.slice(0, 1)[0].concat(quant),
   ...set.slice(1)
 ]
 
-const playScale = (set, quant = 4) => quantSet(set, quant).join(' ')
+export const playScale = (set, quant = 4) => quantSet(set, quant).join(' ')
 
-const cellFold = (str, type) => {
+export const cellFold = (str, type) => {
   switch (type.toLowerCase()) {
     case 'rest':
     case 'r':
@@ -50,7 +50,7 @@ const digitToNote = {
   11: 'b'
 }
 
-const convertDigitToNoteSet = set => set.map(x => digitToNote[x])
+export const convertDigitToNoteSet = set => set.map(x => digitToNote[x])
 
 const noteToDigit = {
   c: 0,
@@ -67,7 +67,7 @@ const noteToDigit = {
   b: 11
 }
 
-const convertNoteToDigit = note => noteToDigit[note]
+export const convertNoteToDigit = note => noteToDigit[note]
 
 const humanToLy = {
   c: 'c',
@@ -84,9 +84,9 @@ const humanToLy = {
   b: 'b'
 }
 
-const convertHumanToLySyntax = note => humanToLy[note.toLowerCase()]
+export const convertHumanToLySyntax = note => humanToLy[note.toLowerCase()]
 
-const sequence = (seq, type, quant, tail) => {
+export const sequence = (seq, type, quant, tail) => {
   if (typeof seq === 'string') {
     seq = seq.split(' ')
   }
@@ -123,7 +123,7 @@ const sequence = (seq, type, quant, tail) => {
   return data
 }
 
-const randChordGen = (arr, count, order) => {
+export const randChordGen = (arr, count, order) => {
   let finalChord = []
 
   const randNote = arr => {
@@ -144,7 +144,7 @@ const randChordGen = (arr, count, order) => {
   }
 }
 
-const formatterLy = (set, type = 'default') => {
+export const formatterLy = (set, type = 'default') => {
   let formattedSet
   if (typeof set === 'string') {
     formattedSet = set
@@ -158,7 +158,7 @@ const formatterLy = (set, type = 'default') => {
   return formattedSet
 }
 
-const printLilyPond = (music, time) => {
+export const printLilyPond = (music, time) => {
   const txt = `\\version "2.18.2"
   
   upper = \\relative c' {
@@ -192,15 +192,15 @@ const transpose = (x, transp) =>
     ? x + transp + 12
     : x + transp
 
-const transposeSet = (set, transp) => set.map(x => transpose(x, transp))
+export const transposeSet = (set, transp) => set.map(x => transpose(x, transp))
 
-const triad = set => [set[0], set[2], set[4]]
+export const triad = set => [set[0], set[2], set[4]]
 
-const seventhChord = set => [set[0], set[2], set[4], set[6]]
+export const seventhChord = set => [set[0], set[2], set[4], set[6]]
 
-const dimSeventhChord = set => [set[6], set[1], set[3], set[5]]
+export const dimSeventhChord = set => [set[6], set[1], set[3], set[5]]
 
-const inversion = (set, inv) => {
+export const inversion = (set, inv) => {
   if (Number(inv) === 0) {
     return set
   } else {
@@ -208,7 +208,7 @@ const inversion = (set, inv) => {
   }
 }
 
-const convertMovementToOctave = movement => {
+export const convertMovementToOctave = movement => {
   if (!movement.length) {
     return ''
   } else if (movement.length !== 2) {
@@ -220,9 +220,9 @@ const convertMovementToOctave = movement => {
   }
 }
 
-const insertOctave = (set, octave) => [set[0] + octave, ...set.slice(1)]
+export const insertOctave = (set, octave) => [set[0] + octave, ...set.slice(1)]
 
-const createScore = (name = '') => {
+export const createScore = (name = '') => {
   try {
     if (name) {
       fs.writeFileSync(`${cache}/${name}.json`, '{}', 'utf8')
@@ -236,7 +236,7 @@ const createScore = (name = '') => {
   }
 }
 
-const writeScore = (input, replace = false) => {
+export const writeScore = (input, replace = false) => {
   try {
     let output
     const read = readScore()
@@ -261,7 +261,7 @@ const writeScore = (input, replace = false) => {
   }
 }
 
-const readScore = () => {
+export const readScore = () => {
   try {
     const data = fs.readFileSync(`${cache}/score.json`, 'utf8')
     return JSON.parse(data)
@@ -270,7 +270,7 @@ const readScore = () => {
   }
 }
 
-const chordLength = type => {
+export const chordLength = type => {
   switch (type) {
     case 'maj-triad':
     case 'min-triad':
@@ -288,26 +288,16 @@ const chordLength = type => {
   }
 }
 
-module.exports = {
-  chordLength,
-  createScore,
-  quantSet,
-  playScale,
-  cellFold,
-  dimSeventhChord,
-  sequence,
-  randChordGen,
-  formatterLy,
-  inversion,
-  printLilyPond,
-  convertDigitToNoteSet,
-  convertNoteToDigit,
-  transposeSet,
-  convertHumanToLySyntax,
-  convertMovementToOctave,
-  insertOctave,
-  triad,
-  writeScore,
-  readScore,
-  seventhChord
+export const timeStamp = () => {
+  const now = new Date()
+  const year = now.getFullYear()
+  const month =
+    now.getMonth() + 1 < 10 ? '0' + (now.getMonth() + 1) : now.getMonth() + 1
+  const date = now.getDate() < 10 ? '0' + now.getDate() : now.getDate()
+  const hours = now.getHours() < 10 ? '0' + now.getHours() : now.getHours()
+  const minutes =
+    now.getMinutes() < 10 ? '0' + now.getMinutes() : now.getMinutes()
+  const seconds =
+    now.getSeconds() < 10 ? '0' + now.getSeconds() : now.getSeconds()
+  return `${year}${month}${date}-${hours}-${minutes}-${seconds}`
 }

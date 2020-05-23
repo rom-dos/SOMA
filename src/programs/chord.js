@@ -1,5 +1,5 @@
-const harmonicSets = require('../harmonicSets')
-const {
+import { harmonicSets } from '../harmonicSets.js'
+import {
   triad,
   dimSeventhChord,
   formatterLy,
@@ -11,9 +11,9 @@ const {
   insertOctave,
   inversion,
   seventhChord
-} = require('../utils')
+} from '../utils.js'
 
-const chord = (key, type, octave, inv, duration) => {
+export const chord = (key, type, octave, inv, duration) => {
   let scaleType = ''
   let data
 
@@ -93,8 +93,4 @@ const chord = (key, type, octave, inv, duration) => {
   }
 
   return data
-}
-
-module.exports = {
-  chord
 }

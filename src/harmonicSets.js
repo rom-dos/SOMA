@@ -1,4 +1,4 @@
-module.exports = {
+export const harmonicSets = {
   ionian: [0, 2, 4, 5, 7, 9, 11],
   dorian: [0, 2, 3, 5, 7, 9, 10],
   phrygian: [0, 1, 3, 5, 7, 8, 10],

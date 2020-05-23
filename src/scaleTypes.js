@@ -1,4 +1,4 @@
-const scaleTypes = [
+export const scaleTypes = [
   { name: 'Ionian', short: 'ionian' },
   { name: 'Dorian', short: 'dorian' },
   { name: 'Phrygian', short: 'phrygian' },
@@ -8,7 +8,3 @@ const scaleTypes = [
   { name: 'Locrian', short: 'locrian' },
   { name: 'Harmonic Minor', short: 'harmonicMinor' }
 ]
-
-module.exports = {
-  scaleTypes
-}
