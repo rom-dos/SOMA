@@ -249,6 +249,23 @@ program
     }
   })
 
+/* insert
+ * Insert raw LilyPond markup
+ *
+ */
+program
+  .command('insert <input>')
+  .alias('i')
+  .description('Insert raw LilyPond markup.')
+  .option('-a, --add', 'Add input to score.')
+  .action((input, options) => {
+    if (options.add) {
+      writeScore(input)
+    } else {
+      output(input)
+    }
+  })
+
 /* ls
  * List various information about the score
  *
