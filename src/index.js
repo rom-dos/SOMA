@@ -24,6 +24,7 @@ const {
   writeScore,
   readScore
 } = require('./utils.js')
+const { chord } = require('./programs/chord.js')
 const { chordTypes } = require('./chordTypes.js')
 const { scaleTypes } = require('./scaleTypes.js')
 
@@ -168,6 +169,7 @@ program
   .description('Generate specified chord.')
   .option('-o, --octave <oct>', 'Shift the octave.', '')
   .option('-i --inversion <inv>', 'Invert chord.', '0')
+  .option('-d, --duration <dur>', 'Apply duration to chord.', '1')
   .option('-a, --add', 'Add chord to score.')
   .action((key, type, options) => {
     if (options.inversion) {
@@ -183,10 +185,14 @@ program
       }
     }
     if (options.add) {
-      writeScore(chord(key, type, options.octave, options.inversion))
+      writeScore(
+        chord(key, type, options.octave, options.inversion, options.duration)
+      )
       // console.log(chord(key, type, options.octave))
     } else {
-      output(chord(key, type, options.octave, options.inversion))
+      output(
+        chord(key, type, options.octave, options.inversion, options.duration)
+      )
     }
   })
 
@@ -238,8 +244,6 @@ program
     if (read.one) {
       writeScore(read.one.slice(0, read.one.length - 1), true)
       console.log('Last measure removed.')
-      // const readPost = readScore()
-      // output(readPost)
     } else {
       console.log('No score to output')
     }

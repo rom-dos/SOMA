@@ -13,7 +13,7 @@ const {
   seventhChord
 } = require('../utils')
 
-const chord = (key, type, octave, inv) => {
+const chord = (key, type, octave, inv, duration) => {
   let scaleType = ''
   let data
 
@@ -55,7 +55,7 @@ const chord = (key, type, octave, inv) => {
         ),
         convertMovementToOctave(octave)
       )
-    )}>1`
+    )}>${duration}`
   } else if (type === 'dim-seventh') {
     data = `<${formatterLy(
       insertOctave(
@@ -72,7 +72,7 @@ const chord = (key, type, octave, inv) => {
         ),
         convertMovementToOctave(octave)
       )
-    )}>1`
+    )}>${duration}`
   } else {
     data = `<${formatterLy(
       insertOctave(
@@ -89,7 +89,7 @@ const chord = (key, type, octave, inv) => {
         ),
         convertMovementToOctave(octave)
       )
-    )}>1`
+    )}>${duration}`
   }
 
   return data
