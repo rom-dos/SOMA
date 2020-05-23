@@ -1,7 +1,10 @@
 import fs from 'fs'
+import os from 'os'
+import shell from 'shelljs'
+import terminalImage from 'terminal-image'
 import { harmonicSets } from './harmonicSets.js'
-import homedir from 'os'
-const cache = `${homedir}/.cache/soma`
+
+const cache = `${os.homedir}/.cache/soma`
 
 /* eslint-disable */
 String.prototype.regexIndexOf = function (regex, startpos) {
@@ -300,4 +303,116 @@ export const timeStamp = () => {
   const seconds =
     now.getSeconds() < 10 ? '0' + now.getSeconds() : now.getSeconds()
   return `${year}${month}${date}-${hours}-${minutes}-${seconds}`
+}
+
+export const output = input => {
+  const time = timeStamp()
+  const lilypond = '/Applications/LilyPond.app/Contents/Resources/bin/lilypond'
+  const outputDir = `${os.homedir}/soma-output`
+
+  fs.writeFileSync(
+    `${os.homedir}/soma-output/${time}.ly`,
+    printLilyPond(input),
+    err => {
+      if (err) throw err
+    }
+  )
+
+  shell.exec(`${lilypond} -fpng -fpdf ${outputDir}/${time}.ly`)
+  shell.mv('*.pdf', '*.midi', '*.png', `${outputDir}/`)
+
+  // return time
+  shell.exec(
+    `magick convert ${outputDir}/${time}.png -channel RGB -negate ${outputDir}/${time}-white.png`
+  )
+  ;(async () => {
+    console.log(
+      await terminalImage.file(`${outputDir}/${time}-white.png`, {
+        width: '88%',
+        height: '16%'
+      })
+    )
+  })()
+}
+
+export const chordGen = (key, type, octave, inv, duration) => {
+  let scaleType = ''
+  let data
+
+  switch (type) {
+    case 'maj-triad':
+    case 'maj-seventh':
+      scaleType = 'ionian'
+      break
+    case 'min-triad':
+    case 'min-seventh':
+      scaleType = 'dorian'
+      break
+    case 'dom-seventh':
+      scaleType = 'mixolydian'
+      break
+    case 'half-dim':
+      scaleType = 'locrian'
+      break
+    case 'dim-seventh':
+      scaleType = 'harmonicMinor'
+      break
+    default:
+      break
+  }
+
+  if (type === 'maj-triad' || type === 'min-triad') {
+    data = `<${formatterLy(
+      insertOctave(
+        convertDigitToNoteSet(
+          inversion(
+            triad(
+              transposeSet(
+                harmonicSets[scaleType],
+                convertNoteToDigit(convertHumanToLySyntax(key))
+              )
+            ),
+            inv
+          )
+        ),
+        convertMovementToOctave(octave)
+      )
+    )}>${duration}`
+  } else if (type === 'dim-seventh') {
+    data = `<${formatterLy(
+      insertOctave(
+        convertDigitToNoteSet(
+          inversion(
+            dimSeventhChord(
+              transposeSet(
+                harmonicSets[scaleType],
+                convertNoteToDigit(convertHumanToLySyntax(key)) + 1
+              )
+            ),
+            inv
+          )
+        ),
+        convertMovementToOctave(octave)
+      )
+    )}>${duration}`
+  } else {
+    data = `<${formatterLy(
+      insertOctave(
+        convertDigitToNoteSet(
+          inversion(
+            seventhChord(
+              transposeSet(
+                harmonicSets[scaleType],
+                convertNoteToDigit(convertHumanToLySyntax(key))
+              )
+            ),
+            inv
+          )
+        ),
+        convertMovementToOctave(octave)
+      )
+    )}>${duration}`
+  }
+
+  return data
 }

@@ -2,64 +2,19 @@
 
 import program from 'commander'
 import shell from 'shelljs'
-import fs from 'fs'
-import { harmonicSets } from './harmonicSets.js'
 import { homedir } from 'os'
-import terminalImage from 'terminal-image'
-
-import {
-  chordLength,
-  createScore,
-  playScale,
-  cellFold,
-  sequence,
-  randChordGen,
-  formatterLy,
-  printLilyPond,
-  transposeSet,
-  convertDigitToNoteSet,
-  convertNoteToDigit,
-  convertHumanToLySyntax,
-  writeScore,
-  readScore,
-  timeStamp
-} from './utils.js'
 
 import { chord } from './programs/chord.js'
+import { chordGen } from './programs/chordGen'
 import { ls } from './programs/ls.js'
+import { insert } from './programs/insert.js'
+import { pop } from './programs/pop.js'
+import { score } from './programs/score.js'
+import { init } from './programs/init.js'
+import { printScale } from './programs/printScale.js'
 
 shell.mkdir('-p', `${homedir}/soma-output`)
 shell.mkdir('-p', `${homedir}/.cache/soma`)
-
-const output = input => {
-  const time = timeStamp()
-  const lilypond = '/Applications/LilyPond.app/Contents/Resources/bin/lilypond'
-  const outputDir = `${homedir}/soma-output`
-
-  fs.writeFileSync(
-    `${homedir}/soma-output/${time}.ly`,
-    printLilyPond(input),
-    err => {
-      if (err) throw err
-    }
-  )
-
-  shell.exec(`${lilypond} -fpng -fpdf ${outputDir}/${time}.ly`)
-  shell.mv('*.pdf', '*.midi', '*.png', `${outputDir}/`)
-
-  // return time
-  shell.exec(
-    `magick convert ${outputDir}/${time}.png -channel RGB -negate ${outputDir}/${time}-white.png`
-  )
-  ;(async () => {
-    console.log(
-      await terminalImage.file(`${outputDir}/${time}-white.png`, {
-        width: '88%',
-        height: '16%'
-      })
-    )
-  })()
-}
 
 program.version('0.0.6').description('System Of Musical Architecture')
 
@@ -74,45 +29,9 @@ program
   .command('printScale <type> <key> <quant> <tail> <mode>')
   .alias('ps')
   .description('Print scale(s)')
-  .action((type, key, quant, tail, mode) => {
-    if (key.toLowerCase() === 'all') {
-      const seq = [
-        'c',
-        'db',
-        'd',
-        'eb',
-        'e',
-        'f',
-        'gb',
-        'g',
-        'ab',
-        'a',
-        'bb',
-        'b'
-      ]
-      const data = sequence(seq, type, quant, tail)
-      mode === 'log' ? console.log(data) : output(data)
-    } else if (key.length > 2) {
-      const seq = key.split(' ')
-      const data = sequence(seq, type, quant, tail)
-      mode === 'log' ? console.log(data) : output(data)
-    } else {
-      const data = cellFold(
-        playScale(
-          convertDigitToNoteSet(
-            transposeSet(
-              harmonicSets[type],
-              convertNoteToDigit(convertHumanToLySyntax(key))
-            )
-          ),
-          quant
-        ),
-        tail
-      )
-
-      mode === 'log' ? console.log(data) : output(data)
-    }
-  })
+  .action((type, key, quant, tail, mode) =>
+    printScale(type, key, quant, tail, mode)
+  )
 
 /* chordGen
  * <type> = type of scale
@@ -126,36 +45,9 @@ program
   .command('chordGen <type> <key> <count> <order> <num> <mode>')
   .alias('cg')
   .description('Generate chords within a given a key')
-  .action((type, key, count, order, num, mode) => {
-    let i = 0
-    let data = ''
-    while (i < num) {
-      data += formatterLy(
-        randChordGen(
-          convertDigitToNoteSet(
-            transposeSet(
-              harmonicSets[type],
-              convertNoteToDigit(convertHumanToLySyntax(key))
-            )
-          ),
-          count,
-          order
-        ),
-        'chord'
-      )
-      data += '1 '
-      i++
-    }
-
-    mode === 'log'
-      ? console.table(
-          data
-            .split('1 ')
-            .map(x => x.concat(1))
-            .slice(0, -1)
-        )
-      : output(data)
-  })
+  .action((type, key, count, order, num, mode) =>
+    chordGen(type, key, count, order, num, mode)
+  )
 
 /* chord
  * <type> = type of scale
@@ -169,30 +61,7 @@ program
   .option('-i --inversion <inv>', 'Invert chord.', '0')
   .option('-d, --duration <dur>', 'Apply duration to chord.', '1')
   .option('-a, --add', 'Add chord to score.')
-  .action((key, type, options) => {
-    if (options.inversion) {
-      if (Number(options.inversion) > chordLength(type) - 1) {
-        console.log(
-          `${
-            options.inversion
-          } is greater than the amount of inversions possible for this chord, ${chordLength(
-            type
-          ) - 1}.`
-        )
-        return false
-      }
-    }
-    if (options.add) {
-      writeScore(
-        chord(key, type, options.octave, options.inversion, options.duration)
-      )
-      // console.log(chord(key, type, options.octave))
-    } else {
-      output(
-        chord(key, type, options.octave, options.inversion, options.duration)
-      )
-    }
-  })
+  .action((key, type, options) => chord(key, type, options))
 
 /* init (score)
  * -n, --name <score-name>
@@ -203,9 +72,7 @@ program
   .alias('new')
   .description('Create new score in .json format.')
   .option('-n, --name <score-name>', 'Add custom name to score.', '')
-  .action(options => {
-    createScore(options.name)
-  })
+  .action(options => init(options.name))
 
 /* output (score)
  * -n, --name <score-name>
@@ -217,18 +84,7 @@ program
   .description('Output score to console.')
   .option('-l, --length', 'Display score length (in measures).')
   .option('-m, --measure <m>', 'Output specified measure.')
-  .action(options => {
-    const read = readScore()
-    if (read.one) {
-      options.length
-        ? console.log(`Score Duration: ${read.one.length} measures.`)
-        : options.measure
-        ? output(read.one[options.measure - 1])
-        : output(read.one.join(' '))
-    } else {
-      console.log('No score to output')
-    }
-  })
+  .action(options => score(options))
 
 /* pop
  * Remove last measure from score and place in cache.
@@ -237,15 +93,7 @@ program
 program
   .command('pop')
   .description('Remove last measure from score and place in cache.')
-  .action(() => {
-    const read = readScore()
-    if (read.one) {
-      writeScore(read.one.slice(0, read.one.length - 1), true)
-      console.log('Last measure removed.')
-    } else {
-      console.log('No score to output')
-    }
-  })
+  .action(() => pop())
 
 /* insert
  * Insert raw LilyPond markup
@@ -256,13 +104,7 @@ program
   .alias('i')
   .description('Insert raw LilyPond markup.')
   .option('-a, --add', 'Add input to score.')
-  .action((input, options) => {
-    if (options.add) {
-      writeScore(input)
-    } else {
-      output(input)
-    }
-  })
+  .action((input, options) => insert(input, options))
 
 /* ls
  * List various information about the score
@@ -274,8 +116,6 @@ program
   .description('List various information.')
   .option('--chords', 'Display list of available chords.')
   .option('--scales', 'Display list of available scales.')
-  .action(options => {
-    ls(options)
-  })
+  .action(options => ls(options))
 
 program.parse(process.argv)
