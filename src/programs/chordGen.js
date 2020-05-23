@@ -1,12 +1,11 @@
 import {
   convertDigitToNoteSet,
   convertHumanToLySyntax,
-  convertNoteToDigit,
-  formatterLy,
-  output,
-  randChordGen,
-  transposeSet
-} from '../utils.js'
+  convertNoteToDigit
+} from '../utils/conversion-utils.js'
+import { formatterLy, transposeSet } from '../utils/transform-utils.js'
+import { randChordGen } from '../utils/chord-utils.js'
+import { output } from '../utils/output-utils.js'
 
 export const chordGen = (type, key, count, order, num, mode) => {
   let i = 0

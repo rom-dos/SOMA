@@ -1,4 +1,4 @@
-import { readScore, output } from '../utils.js'
+import { readScore, output } from '../utils/output-utils.js'
 
 export const score = options => {
   const read = readScore()

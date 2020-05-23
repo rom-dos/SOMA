@@ -1,14 +1,13 @@
 import { harmonicSets } from '../harmonicSets.js'
+import { cellFold, transposeSet } from '../utils/transform-utils.js'
 import {
-  cellFold,
   convertDigitToNoteSet,
   convertHumanToLySyntax,
-  convertNoteToDigit,
-  output,
-  playScale,
-  sequence,
-  transposeSet
-} from '../utils.js'
+  convertNoteToDigit
+} from '../utils/conversion-utils.js'
+import { output } from '../utils/output-utils.js'
+import { playScale } from '../utils/scale-utils.js'
+import { sequence } from '../utils/sequencing-utils.js'
 
 export const printScale = (type, key, quant, tail, mode) => {
   if (key.toLowerCase() === 'all') {

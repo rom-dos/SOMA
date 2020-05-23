@@ -1,4 +1,4 @@
-import { readScore, writeScore } from '../utils.js'
+import { readScore, writeScore } from '../utils/output-utils.js'
 
 export const pop = () => {
   const read = readScore()

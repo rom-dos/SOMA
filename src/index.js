@@ -5,7 +5,7 @@ import shell from 'shelljs'
 import { homedir } from 'os'
 
 import { chord } from './programs/chord.js'
-import { chordGen } from './programs/chordGen'
+import { chordGen } from './programs/chordGen.js'
 import { ls } from './programs/ls.js'
 import { insert } from './programs/insert.js'
 import { pop } from './programs/pop.js'

@@ -1,4 +1,5 @@
-import { chordGen, chordLength, output, writeScore } from '../utils.js'
+import { chordGen, chordLength } from '../utils/chord-utils.js'
+import { output, writeScore } from '../utils/output-utils.js'
 
 export const chord = (key, type, options) => {
   if (options.inversion) {
