@@ -148,6 +148,7 @@ export const output = input => {
         height: '16%'
       })
     )
+    shell.exec(`timidity ${cwd}/midi/${time}.midi`)
   })()
 }
 
