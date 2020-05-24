@@ -9,7 +9,7 @@ import { chordGen } from './programs/chordGen.js'
 import { ls } from './programs/ls.js'
 import { insert } from './programs/insert.js'
 import { pop } from './programs/pop.js'
-import { score } from './programs/score.js'
+import { print } from './programs/print.js'
 import { init } from './programs/init.js'
 import { printScale } from './programs/printScale.js'
 
@@ -94,17 +94,17 @@ program
   .option('-a, --add <stave>', 'Add chord to specified stave.')
   .action((key, type, options) => chord(key, type, options))
 
-/* output (score)
+/* print
  * -n, --name <score-name>
  *
  */
 program
-  .command('score')
-  .alias('output')
-  .description('Output score to console.')
+  .command('print')
+  .alias('p')
+  .description('Print score to console.')
   .option('-l, --length', 'Display score length (in measures).')
   .option('-m, --measure <m>', 'Output specified measure.')
-  .action(options => score(options))
+  .action(options => print(options))
 
 /* pop
  * Remove last measure from score and place in cache.

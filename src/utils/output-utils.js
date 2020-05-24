@@ -6,6 +6,8 @@ import terminalImage from 'terminal-image'
 const cache = `${os.homedir}/.cache/soma`
 
 const cwd = process.cwd()
+const rc = `${cwd}/somarc.json`
+const score = `${cwd}/score.json`
 
 export const timeStamp = () => {
   const now = new Date()
@@ -21,24 +23,10 @@ export const timeStamp = () => {
   return `${year}${month}${date}-${hours}-${minutes}-${seconds}`
 }
 
-export const createScore = options => {
+export const readRc = () => {
   try {
-    if (options.name) {
-      fs.writeFileSync(
-        `${cwd}/${options.name}.json`,
-        JSON.stringify({}),
-        'utf8'
-      )
-      console.log(`New Score ${options.name} Created.`)
-    } else {
-      fs.writeFileSync(
-        `${process.cwd()}/score.json`,
-        JSON.stringify({ a: [] }),
-        'utf8'
-      )
-      console.log('New Score Created.')
-    }
-    console.log(`Output Directory: ${cwd}.`)
+    const read = fs.readFileSync(rc, 'utf8')
+    return JSON.parse(read)
   } catch (err) {
     console.error(err)
   }
@@ -46,8 +34,50 @@ export const createScore = options => {
 
 export const readScore = () => {
   try {
-    const data = fs.readFileSync(`${cwd}/score.json`, 'utf8')
-    return JSON.parse(data)
+    const read = fs.readFileSync(score, 'utf8')
+    return JSON.parse(read)
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export const createSomaRc = (rcPath, options) => {
+  fs.openSync(rcPath, 'a')
+  writetoSomaRc(rcPath, {
+    name: options.name,
+    description: options.description,
+    'stave-count': options.staves,
+    tempo: options.tempo
+  })
+}
+
+export const writetoSomaRc = (rcPath, data) => {
+  try {
+    const read = fs.readFileSync(rcPath, 'utf8')
+    if (read) {
+      console.log(true)
+      // deal with this later
+    } else {
+      fs.writeFileSync(rcPath, JSON.stringify(data, null, 2), 'utf8')
+      const readPost = fs.readFileSync(rcPath, 'utf8')
+      console.log('')
+      console.log(readPost)
+    }
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export const createScore = () => {
+  try {
+    fs.writeFileSync(
+      `${process.cwd()}/score.json`,
+      JSON.stringify({ a: [] }),
+      'utf8'
+    )
+    console.log('')
+    console.log(`New Score Created.`)
+    console.log(`Output Directory: ${process.cwd()}.`)
   } catch (err) {
     console.error(err)
   }
@@ -84,9 +114,17 @@ export const output = input => {
   const time = timeStamp()
   const lilypond = '/Applications/LilyPond.app/Contents/Resources/bin/lilypond'
 
-  fs.writeFileSync(`${cwd}/${time}.ly`, printLilyPond(input), err => {
-    if (err) throw err
-  })
+  if (typeof input === 'object') {
+    fs.writeFileSync(`${cwd}/${time}.ly`, printLilyPondDouble(input), err => {
+      if (err) throw err
+    })
+  } else {
+    fs.writeFileSync(`${cwd}/${time}.ly`, printLilyPond(input), err => {
+      if (err) throw err
+    })
+
+    console.log(false)
+  }
 
   shell.exec(`${lilypond} -fpng -fpdf ${cwd}/${time}.ly`)
   shell.mv('*.png', `${cache}/`)
@@ -128,6 +166,40 @@ export const printLilyPond = (music, time) => {
     \\new PianoStaff
     <<
       \\new Staff = "upper" \\upper
+    >>
+    \\layout { }
+    \\midi { }
+    \\include "lilypond-book-preamble.ly"
+  }
+  \\paper { oddFooterMarkup = ##f }
+`
+  return txt
+}
+
+export const printLilyPondDouble = (music, time) => {
+  const txt = `\\version "2.18.2"
+  
+  upper = \\relative c' {
+  \\clef treble
+  \\key c \\major
+  \\time 4/4
+
+      ${music.a.join(' ')} 
+  }
+
+  lower = \\relative c {
+  \\clef bass
+  \\key c \\major
+  \\time 4/4
+
+      ${music.b.join(' ')} 
+  }
+
+  \\score {
+    \\new PianoStaff
+    <<
+      \\new Staff = "upper" \\upper
+      \\new Staff = "lower" \\lower
     >>
     \\layout { }
     \\midi { }
