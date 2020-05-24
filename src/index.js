@@ -123,7 +123,7 @@ program
   .command('insert <input>')
   .alias('i')
   .description('Insert raw LilyPond markup.')
-  .option('-a, --add', 'Add input to score.')
+  .option('-a, --add <stave>', 'Add input to score.')
   .action((input, options) => insert(input, options))
 
 program.parse(process.argv)
