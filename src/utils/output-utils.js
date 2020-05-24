@@ -5,6 +5,8 @@ import terminalImage from 'terminal-image'
 
 const cache = `${os.homedir}/.cache/soma`
 
+const cwd = process.cwd()
+
 export const timeStamp = () => {
   const now = new Date()
   const year = now.getFullYear()
@@ -19,15 +21,24 @@ export const timeStamp = () => {
   return `${year}${month}${date}-${hours}-${minutes}-${seconds}`
 }
 
-export const createScore = (name = '') => {
+export const createScore = options => {
   try {
-    if (name) {
-      fs.writeFileSync(`${cache}/${name}.json`, '{}', 'utf8')
-      console.log(`New Score ${name} Created.`)
+    if (options.name) {
+      fs.writeFileSync(
+        `${cwd}/${options.name}.json`,
+        JSON.stringify({}),
+        'utf8'
+      )
+      console.log(`New Score ${options.name} Created.`)
     } else {
-      fs.writeFileSync(`${cache}/score.json`, '{}', 'utf8')
+      fs.writeFileSync(
+        `${process.cwd()}/score.json`,
+        JSON.stringify({ a: [] }),
+        'utf8'
+      )
       console.log('New Score Created.')
     }
+    console.log(`Output Directory: ${cwd}.`)
   } catch (err) {
     console.error(err)
   }
@@ -35,32 +46,34 @@ export const createScore = (name = '') => {
 
 export const readScore = () => {
   try {
-    const data = fs.readFileSync(`${cache}/score.json`, 'utf8')
+    const data = fs.readFileSync(`${cwd}/score.json`, 'utf8')
     return JSON.parse(data)
   } catch (err) {
     console.error(err)
   }
 }
 
-export const writeScore = (input, replace = false) => {
+export const writeScore = (input, replace = false, stave) => {
   try {
-    let output
     const read = readScore()
-    if (read['one']) {
+    let staveOutput
+    if (read[stave]) {
       if (replace) {
-        output = input
+        staveOutput = input
       } else {
-        output = [...read['one'], input]
+        staveOutput = [...read[stave], input]
       }
     } else {
-      output = [input]
+      staveOutput = [input]
     }
+
     fs.writeFileSync(
-      `${cache}/score.json`,
-      JSON.stringify({ one: output }),
+      `${cwd}/score.json`,
+      JSON.stringify(Object.assign({}, read, { [stave]: staveOutput })),
       'utf8'
     )
     const readPost = readScore()
+    console.log('')
     console.log(readPost)
   } catch (err) {
     console.error(err)
@@ -70,26 +83,29 @@ export const writeScore = (input, replace = false) => {
 export const output = input => {
   const time = timeStamp()
   const lilypond = '/Applications/LilyPond.app/Contents/Resources/bin/lilypond'
-  const outputDir = `${os.homedir}/soma-output`
 
-  fs.writeFileSync(
-    `${os.homedir}/soma-output/${time}.ly`,
-    printLilyPond(input),
-    err => {
-      if (err) throw err
-    }
-  )
+  fs.writeFileSync(`${cwd}/${time}.ly`, printLilyPond(input), err => {
+    if (err) throw err
+  })
 
-  shell.exec(`${lilypond} -fpng -fpdf ${outputDir}/${time}.ly`)
-  shell.mv('*.pdf', '*.midi', '*.png', `${outputDir}/`)
+  shell.exec(`${lilypond} -fpng -fpdf ${cwd}/${time}.ly`)
+  shell.mv('*.png', `${cache}/`)
+  shell.mv('*.ly', `${cwd}/ly/`)
+  shell.mv('*.pdf', `${cwd}/pdf/`)
+  shell.mv('*.midi', `${cwd}/midi/`)
+
+  shell.rm('*.eps')
+  shell.rm('*.count')
+  shell.rm('*.tex')
+  shell.rm('*.texi')
 
   // return time
   shell.exec(
-    `magick convert ${outputDir}/${time}.png -channel RGB -negate ${outputDir}/${time}-white.png`
+    `magick convert ${cache}/${time}.png -channel RGB -negate ${cache}/${time}-white.png`
   )
   ;(async () => {
     console.log(
-      await terminalImage.file(`${outputDir}/${time}-white.png`, {
+      await terminalImage.file(`${cache}/${time}-white.png`, {
         width: '88%',
         height: '16%'
       })

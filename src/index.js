@@ -13,10 +13,37 @@ import { score } from './programs/score.js'
 import { init } from './programs/init.js'
 import { printScale } from './programs/printScale.js'
 
-shell.mkdir('-p', `${homedir}/soma-output`)
 shell.mkdir('-p', `${homedir}/.cache/soma`)
 
 program.version('0.0.6').description('System Of Musical Architecture')
+
+/* ls
+ * List various information about the score
+ *
+ */
+program
+  .command('ls')
+  .alias('list')
+  .description('List various information.')
+  .option('--chords', 'Display list of available chords.')
+  .option('--scales', 'Display list of available scales.')
+  .action(options => ls(options))
+
+/* init
+ * -n, --name <score-name>
+ * --description <score-description>
+ * --staves <stave-count>
+ * -t, --tempo <temp>
+ */
+program
+  .command('init')
+  .alias('new')
+  .description('Create new score in .json format.')
+  .option('-n, --name <score-name>', 'Add custom name to score.', '')
+  .option('--description <score-description>', 'Add description to score.', '')
+  .option('--staves <stave-count>', 'Define number of staves.', '1')
+  .option('-t, --tempo <temp>', "Defines the score's tempo.", '130')
+  .action(options => init(options))
 
 /* printScale
  * <type> = type of scale
@@ -52,6 +79,10 @@ program
 /* chord
  * <type> = type of scale
  * <key> = key of scale
+ * -o, --octave <oct>
+ * -i, --inversion <inv>
+ * -d, --duration <dur>
+ * -a, -add <stave>
  */
 program
   .command('chord <key> <type>')
@@ -60,19 +91,8 @@ program
   .option('-o, --octave <oct>', 'Shift the octave.', '')
   .option('-i --inversion <inv>', 'Invert chord.', '0')
   .option('-d, --duration <dur>', 'Apply duration to chord.', '1')
-  .option('-a, --add', 'Add chord to score.')
+  .option('-a, --add <stave>', 'Add chord to specified stave.')
   .action((key, type, options) => chord(key, type, options))
-
-/* init (score)
- * -n, --name <score-name>
- *
- */
-program
-  .command('init')
-  .alias('new')
-  .description('Create new score in .json format.')
-  .option('-n, --name <score-name>', 'Add custom name to score.', '')
-  .action(options => init(options.name))
 
 /* output (score)
  * -n, --name <score-name>
@@ -105,17 +125,5 @@ program
   .description('Insert raw LilyPond markup.')
   .option('-a, --add', 'Add input to score.')
   .action((input, options) => insert(input, options))
-
-/* ls
- * List various information about the score
- *
- */
-program
-  .command('ls')
-  .alias('list')
-  .description('List various information.')
-  .option('--chords', 'Display list of available chords.')
-  .option('--scales', 'Display list of available scales.')
-  .action(options => ls(options))
 
 program.parse(process.argv)

@@ -1,5 +1,5 @@
 import { chordGen, chordLength } from '../utils/chord-utils.js'
-import { output, writeScore } from '../utils/output-utils.js'
+import { output, readScore, writeScore } from '../utils/output-utils.js'
 
 export const chord = (key, type, options) => {
   if (options.inversion) {
@@ -16,7 +16,9 @@ export const chord = (key, type, options) => {
   }
   if (options.add) {
     writeScore(
-      chordGen(key, type, options.octave, options.inversion, options.duration)
+      chordGen(key, type, options.octave, options.inversion, options.duration),
+      false,
+      options.add
     )
   } else {
     output(
