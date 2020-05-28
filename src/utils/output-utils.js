@@ -112,16 +112,25 @@ export const writeScore = (input, replace = false, stave) => {
 
 export const output = input => {
   const time = timeStamp()
+  const rc = readRc()
   const lilypond = '/Applications/LilyPond.app/Contents/Resources/bin/lilypond'
 
   if (typeof input === 'object') {
-    fs.writeFileSync(`${cwd}/${time}.ly`, printLilyPondDouble(input), err => {
-      if (err) throw err
-    })
+    fs.writeFileSync(
+      `${cwd}/${time}.ly`,
+      printLilyPondDouble(input, rc.tempo),
+      err => {
+        if (err) throw err
+      }
+    )
   } else {
-    fs.writeFileSync(`${cwd}/${time}.ly`, printLilyPond(input), err => {
-      if (err) throw err
-    })
+    fs.writeFileSync(
+      `${cwd}/${time}.ly`,
+      printLilyPond(input, rc.tempo),
+      err => {
+        if (err) throw err
+      }
+    )
 
     console.log(false)
   }
@@ -152,13 +161,14 @@ export const output = input => {
   })()
 }
 
-export const printLilyPond = (music, time) => {
+export const printLilyPond = (music, tempo) => {
   const txt = `\\version "2.18.2"
   
   upper = \\relative c' {
   \\clef treble
   \\key c \\major
   \\time 4/4
+  \\tempo 4 = ${tempo}
 
       ${music} 
   }
@@ -177,13 +187,14 @@ export const printLilyPond = (music, time) => {
   return txt
 }
 
-export const printLilyPondDouble = (music, time) => {
+export const printLilyPondDouble = (music, tempo) => {
   const txt = `\\version "2.18.2"
   
   upper = \\relative c' {
   \\clef treble
   \\key c \\major
   \\time 4/4
+  \\tempo 4 = ${tempo}
 
       ${music.a.join(' ')} 
   }
@@ -192,6 +203,7 @@ export const printLilyPondDouble = (music, time) => {
   \\clef bass
   \\key c \\major
   \\time 4/4
+  \\tempo 4 = ${tempo}
 
       ${music.b.join(' ')} 
   }
