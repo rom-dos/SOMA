@@ -5,6 +5,7 @@ import shell from 'shelljs'
 import { homedir } from 'os'
 
 import { chord } from './programs/chord.js'
+import { clef } from './programs/clef.js'
 import { chordGen } from './programs/chordGen.js'
 import { ls } from './programs/ls.js'
 import { insert } from './programs/insert.js'
@@ -93,6 +94,17 @@ program
   .option('-d, --duration <dur>', 'Apply duration to chord.', '1')
   .option('-a, --add <stave>', 'Add chord to specified stave.')
   .action((key, type, options) => chord(key, type, options))
+
+/* clef
+ * <type> = type of clef
+ * -a, -add <stave>
+ */
+program
+  .command('clef <type>')
+  .alias('cl')
+  .description('Generate specified clef.')
+  .option('-a, --add <stave>', 'Add chord to specified stave.')
+  .action((type, options) => clef(type, options))
 
 /* print
  * -n, --name <score-name>
