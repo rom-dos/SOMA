@@ -86,22 +86,54 @@ export const createScore = () => {
 export const writeScore = (input, replace = false, stave) => {
   try {
     const read = readScore()
-    let staveOutput
-    if (read[stave]) {
-      if (replace) {
-        staveOutput = input
+    if (stave.toLowerCase() === 'dbl') {
+      let staveOutputA
+      let staveOutputB
+      if (read['a']) {
+        if (replace) {
+          staveOutputA = input
+        } else {
+          staveOutputA = [...read['a'], input]
+        }
       } else {
-        staveOutput = [...read[stave], input]
+        staveOutputA = [input]
       }
-    } else {
-      staveOutput = [input]
-    }
 
-    fs.writeFileSync(
-      `${cwd}/score.json`,
-      JSON.stringify(Object.assign({}, read, { [stave]: staveOutput })),
-      'utf8'
-    )
+      if (read['b']) {
+        if (replace) {
+          staveOutputB = input
+        } else {
+          staveOutputB = [...read['b'], input]
+        }
+      } else {
+        staveOutputB = [input]
+      }
+
+      fs.writeFileSync(
+        `${cwd}/score.json`,
+        JSON.stringify(
+          Object.assign({}, read, { a: staveOutputA, b: staveOutputB })
+        ),
+        'utf8'
+      )
+    } else {
+      let staveOutput
+      if (read[stave]) {
+        if (replace) {
+          staveOutput = input
+        } else {
+          staveOutput = [...read[stave], input]
+        }
+      } else {
+        staveOutput = [input]
+      }
+
+      fs.writeFileSync(
+        `${cwd}/score.json`,
+        JSON.stringify(Object.assign({}, read, { [stave]: staveOutput })),
+        'utf8'
+      )
+    }
     const readPost = readScore()
     console.log('')
     console.log(readPost)
