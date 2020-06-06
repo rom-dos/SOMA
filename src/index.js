@@ -104,6 +104,7 @@ program
   .description('Print score to console.')
   .option('-l, --length', 'Display score length (in measures).')
   .option('-m, --measure <m>', 'Output specified measure.')
+  .option('-w, --width <w>', 'Set the width of the output score.', 88)
   .action(options => print(options))
 
 /* pop

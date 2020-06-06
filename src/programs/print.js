@@ -26,9 +26,9 @@ export const print = options => {
     )
   } else {
     if (staveCount === 1) {
-      output(score.a.join(' '))
+      output(score.a.join(' '), options.width)
     } else if (staveCount > 1) {
-      output(score)
+      output(score, options.width)
     } else {
       console.log('No score to output.')
     }
