@@ -5,6 +5,8 @@ export const print = options => {
   const score = readScore()
   const staveCount = Number(rc['stave-count'])
 
+  const silent = options.silent ? true : false
+
   if (options.length) {
     let scoreLength = 0
     if (staveCount === 1) {
@@ -26,9 +28,9 @@ export const print = options => {
     )
   } else {
     if (staveCount === 1) {
-      output(score.a.join(' '), options.width)
+      output(score.a.join(' '), silent, options.width)
     } else if (staveCount > 1) {
-      output(score, options.width)
+      output(score, silent, options.width)
     } else {
       console.log('No score to output.')
     }

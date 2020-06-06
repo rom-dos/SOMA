@@ -110,7 +110,7 @@ export const writeScore = (input, replace = false, stave) => {
   }
 }
 
-export const output = (input, width = 88) => {
+export const output = (input, silent, width = 88) => {
   const time = timeStamp()
   const rc = readRc()
   const lilypond = '/Applications/LilyPond.app/Contents/Resources/bin/lilypond'
@@ -156,7 +156,9 @@ export const output = (input, width = 88) => {
         width: `${width}%`
       })
     )
-    shell.exec(`timidity ${cwd}/midi/${time}.midi`)
+    if (!silent) {
+      shell.exec(`timidity ${cwd}/midi/${time}.midi`)
+    }
   })()
 }
 

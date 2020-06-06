@@ -93,6 +93,7 @@ program
   .option('-i --inversion <inv>', 'Invert chord.', '0')
   .option('-d, --duration <dur>', 'Apply duration to chord.', '1')
   .option('-a, --add <stave>', 'Add chord to specified stave.')
+  .option('-s, --silent', 'Output the chord without MIDI playback.')
   .action((key, type, options) => chord(key, type, options))
 
 /* clef
@@ -107,8 +108,6 @@ program
   .action((type, options) => clef(type, options))
 
 /* print
- * -n, --name <score-name>
- *
  */
 program
   .command('print')
@@ -117,6 +116,7 @@ program
   .option('-l, --length', 'Display score length (in measures).')
   .option('-m, --measure <m>', 'Output specified measure.')
   .option('-w, --width <w>', 'Set the width of the output score.', 88)
+  .option('-s, --silent', 'Output the score without MIDI playback.')
   .action(options => print(options))
 
 /* pop

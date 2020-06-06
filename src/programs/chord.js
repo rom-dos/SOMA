@@ -22,7 +22,8 @@ export const chord = (key, type, options) => {
     )
   } else {
     output(
-      chordGen(key, type, options.octave, options.inversion, options.duration)
+      chordGen(key, type, options.octave, options.inversion, options.duration),
+      options.silent
     )
   }
 }
