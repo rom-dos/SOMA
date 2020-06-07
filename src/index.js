@@ -13,6 +13,7 @@ import { pop } from './programs/pop.js'
 import { print } from './programs/print.js'
 import { init } from './programs/init.js'
 import { printScale } from './programs/printScale.js'
+import { undo } from './programs/undo.js'
 
 shell.mkdir('-p', `${homedir}/.cache/soma`)
 
@@ -45,6 +46,14 @@ program
   .option('--staves <stave-count>', 'Define number of staves.', '1')
   .option('-t, --tempo <temp>', "Defines the score's tempo.", '130')
   .action(options => init(options))
+
+/* undo
+ */
+program
+  .command('undo')
+  .alias('u')
+  .description('Undo last insert into the score.')
+  .action(() => undo())
 
 /* printScale
  * <type> = type of scale

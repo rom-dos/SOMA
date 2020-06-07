@@ -72,7 +72,7 @@ export const createScore = () => {
   try {
     fs.writeFileSync(
       `${process.cwd()}/score.json`,
-      JSON.stringify({ a: [] }),
+      JSON.stringify({ a: [], staveHistory: [] }),
       'utf8'
     )
     console.log('')
@@ -112,7 +112,11 @@ export const writeScore = (input, replace = false, stave) => {
       fs.writeFileSync(
         `${cwd}/score.json`,
         JSON.stringify(
-          Object.assign({}, read, { a: staveOutputA, b: staveOutputB })
+          Object.assign({}, read, {
+            a: staveOutputA,
+            b: staveOutputB,
+            staveHistory: [...read.staveHistory, stave]
+          })
         ),
         'utf8'
       )
@@ -130,7 +134,12 @@ export const writeScore = (input, replace = false, stave) => {
 
       fs.writeFileSync(
         `${cwd}/score.json`,
-        JSON.stringify(Object.assign({}, read, { [stave]: staveOutput })),
+        JSON.stringify(
+          Object.assign({}, read, {
+            [stave]: staveOutput,
+            staveHistory: [...read.staveHistory, stave]
+          })
+        ),
         'utf8'
       )
     }
