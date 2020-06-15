@@ -103,6 +103,7 @@ program
   .option('-d, --duration <dur>', 'Apply duration to chord.', '1')
   .option('-a, --add <stave>', 'Add chord to specified stave.')
   .option('-s, --silent', 'Output the chord without MIDI playback.')
+  .option('--drop <drop-note>', 'Drop the specified note', false)
   .action((key, type, options) => chord(key, type, options))
 
 /* clef

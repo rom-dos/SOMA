@@ -45,6 +45,12 @@ const humanToLy = {
 
 export const convertDigitToNoteSet = set => set.map(x => digitToNote[x])
 
+export const convertDigitToNoteSetChord = set => {
+  return set.map((x, i) =>
+    set[i] - set[i - 1] > 6 ? `${digitToNote[x]}'` : digitToNote[x]
+  )
+}
+
 export const convertNoteToDigit = note => noteToDigit[note]
 
 export const convertHumanToLySyntax = note => humanToLy[note.toLowerCase()]

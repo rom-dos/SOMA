@@ -16,13 +16,27 @@ export const chord = (key, type, options) => {
   }
   if (options.add) {
     writeScore(
-      chordGen(key, type, options.octave, options.inversion, options.duration),
+      chordGen(
+        key,
+        type,
+        options.octave,
+        options.inversion,
+        options.duration,
+        options.drop
+      ),
       false,
       options.add
     )
   } else {
     output(
-      chordGen(key, type, options.octave, options.inversion, options.duration),
+      chordGen(
+        key,
+        type,
+        options.octave,
+        options.inversion,
+        options.duration,
+        options.drop
+      ),
       options.silent
     )
   }

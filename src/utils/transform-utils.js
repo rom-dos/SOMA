@@ -31,6 +31,14 @@ export const inversion = (set, inv) => {
   }
 }
 
+export const dropNote = (set, dn) => {
+  if (dn) {
+    return [...set.slice(0, dn - 1), ...set.slice(dn)]
+  } else {
+    return set
+  }
+}
+
 export const cellFold = (str, type) => {
   switch (type.toLowerCase()) {
     case 'rest':

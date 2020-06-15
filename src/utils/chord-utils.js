@@ -1,18 +1,20 @@
 import { harmonicSets } from '../harmonicSets.js'
 import {
   convertDigitToNoteSet,
+  convertDigitToNoteSetChord,
   convertHumanToLySyntax,
   convertNoteToDigit
 } from './conversion-utils.js'
 import {
   convertMovementToOctave,
+  dropNote,
   formatterLy,
   insertOctave,
   inversion,
   transposeSet
 } from './transform-utils.js'
 
-export const chordGen = (key, type, octave, inv, duration) => {
+export const chordGen = (key, type, octave, inv, duration, dn) => {
   let scaleType = ''
   let data
 
@@ -41,15 +43,18 @@ export const chordGen = (key, type, octave, inv, duration) => {
   if (type === 'maj-triad' || type === 'min-triad') {
     data = `<${formatterLy(
       insertOctave(
-        convertDigitToNoteSet(
-          inversion(
-            triad(
-              transposeSet(
-                harmonicSets[scaleType],
-                convertNoteToDigit(convertHumanToLySyntax(key))
-              )
+        convertDigitToNoteSetChord(
+          dropNote(
+            inversion(
+              triad(
+                transposeSet(
+                  harmonicSets[scaleType],
+                  convertNoteToDigit(convertHumanToLySyntax(key))
+                )
+              ),
+              inv
             ),
-            inv
+            dn
           )
         ),
         convertMovementToOctave(octave)
@@ -58,15 +63,18 @@ export const chordGen = (key, type, octave, inv, duration) => {
   } else if (type === 'dim-seventh') {
     data = `<${formatterLy(
       insertOctave(
-        convertDigitToNoteSet(
-          inversion(
-            dimSeventhChord(
-              transposeSet(
-                harmonicSets[scaleType],
-                convertNoteToDigit(convertHumanToLySyntax(key)) + 1
-              )
+        convertDigitToNoteSetChord(
+          dropNote(
+            inversion(
+              dimSeventhChord(
+                transposeSet(
+                  harmonicSets[scaleType],
+                  convertNoteToDigit(convertHumanToLySyntax(key)) + 1
+                )
+              ),
+              inv
             ),
-            inv
+            dn
           )
         ),
         convertMovementToOctave(octave)
@@ -75,15 +83,18 @@ export const chordGen = (key, type, octave, inv, duration) => {
   } else {
     data = `<${formatterLy(
       insertOctave(
-        convertDigitToNoteSet(
-          inversion(
-            seventhChord(
-              transposeSet(
-                harmonicSets[scaleType],
-                convertNoteToDigit(convertHumanToLySyntax(key))
-              )
+        convertDigitToNoteSetChord(
+          dropNote(
+            inversion(
+              seventhChord(
+                transposeSet(
+                  harmonicSets[scaleType],
+                  convertNoteToDigit(convertHumanToLySyntax(key))
+                )
+              ),
+              inv
             ),
-            inv
+            dn
           )
         ),
         convertMovementToOctave(octave)
